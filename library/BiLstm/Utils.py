@@ -4,20 +4,27 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from library.BiLstm.TripletGenereator import TripletGenereator
 
-maxLength = 40
-batch_size = 128
-EMBEDDING_SIZE = 384
+############################################
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import f1_score
+import matplotlib.pyplot as plt
+############################################
+
+MAX_DEFAULT_SEQUENCE_LENGTH = 5
+DEFAULT_BATCH_SIZE = 128
+DEFAULT_EMBEDDING_SIZE = 384
 
 bertEmbeddingModel = SentenceTransformer('paraphrase-MiniLM-L6-v2')
-
 
 def getDataListFromFile(fileAddress):
 	dataFrame = pd.read_csv(fileAddress, encoding= 'unicode_escape')
 	return [x for x in list(set(dataFrame['phrase'])) if isinstance(x, str) and len(x)>0]
 
-def getPaddedWordsFromPhrase(phrase, length = 5):
+def getPaddedWordsFromPhrase(phrase, maxSequenceLength = MAX_DEFAULT_SEQUENCE_LENGTH):
 	words = phrase.split(" ")
-	return words[:5]+[""]*(5-len(words))
+	return words[:maxSequenceLength]+[""]*max(maxSequenceLength-len(words), 0)
 
 def getPhraseEmbedding(phrase):
 	embedding = []
@@ -53,28 +60,28 @@ def getTrainTestSplit(X, y, trainRatio = 0.2, validationRatio=0.25):
 	X_test, X_val, y_test, y_val = train_test_split(X_temp, y_temp, test_size=validationRatio, random_state=2) # 0.25 x 0.8 = 0.2
 	return (X_train, X_test, X_val), (y_train, y_test, y_val)
 
-def getSplittedGenerators(X, y, batch_size=128, trainRatio = 0.6, validationRatio=0.17):  #Remaining part is validation ratio
+def getSplittedGenerators(X, y, trainRatio = 0.6, validationRatio=0.17, embeddingSize = DEFAULT_EMBEDDING_SIZE, maxSequenceLength = MAX_DEFAULT_SEQUENCE_LENGTH, batch_size = DEFAULT_BATCH_SIZE):  #Remaining part is validation ratio
 	(X_train, X_test, X_val), (y_train, y_test, y_val) = getTrainTestSplit(X, y, trainRatio, validationRatio)
 	print(len(y_train),len(y_test), len(y_val))
 	train_generator = TripletGenereator(
 		X_train,
 		y_train,
 		batch_size=batch_size,
-		max_length=maxLength,
-		embedding_size=EMBEDDING_SIZE
+		max_length=maxSequenceLength,
+		embedding_size=embeddingSize
 	)
 	test_generator = TripletGenereator(
-	X_test,
-	y_test,
-	batch_size=batch_size,
-	max_length=maxLength,
-	embedding_size=EMBEDDING_SIZE
+		X_test,
+		y_test,
+		batch_size=batch_size,
+		max_length=maxSequenceLength,
+		embedding_size=embeddingSize
 	)
 	validation_generator = TripletGenereator(
 		X_val,
 		y_val,
 		batch_size=batch_size,
-		max_length=maxLength,
-		embedding_size=EMBEDDING_SIZE
+		max_length=maxSequenceLength,
+		embedding_size=embeddingSize
 	)
 	return train_generator, test_generator, validation_generator

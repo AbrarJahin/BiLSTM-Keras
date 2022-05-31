@@ -41,7 +41,7 @@ EMBEDDING_SIZE = len(X[0][0])
 print("Embedding Size -", EMBEDDING_SIZE)
 train_generator, test_generator, validation_generator = getSplittedGenerators(X, y)
 
-lstmModel, attention = BiLstmBinaryClassifier(maxLength,EMBEDDING_SIZE)
+lstmModel, attention = BiLstmBinaryClassifier(5,EMBEDDING_SIZE)
 lstmModel.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
 lstmModel.summary()
 
@@ -51,7 +51,7 @@ class_weight = {
 	}
 
 earlyStopping = EarlyStopping(monitor='val_loss', patience=3,verbose=1, restore_best_weights=True)
-modelCheckpoint = ModelCheckpoint(os.path.join("./", "model", "bestBiLstmModel.model"), monitor="val_loss",verbose=1, save_best_only=True)
+modelCheckpoint = ModelCheckpoint(os.path.join("./", "model", "bestBiLstmModel.h5"), monitor="val_loss",verbose=1, save_best_only=True)
 
 runHistory = lstmModel.fit_generator(train_generator, validation_data=validation_generator,epochs=10000, callbacks=[modelCheckpoint, earlyStopping], class_weight=class_weight)
 
