@@ -1,0 +1,22 @@
+name: BiLstm
+
+channels:
+  - anaconda
+  - cvxgrp
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.6.5
+  - pip:
+    - pandas==1.1.5
+    - sentence-transformers==2.2.0
+    - scikit-learn==0.24.2
+    - tensorflow==2.6.2
+    #- tensorflow-gpu==2.6.2
+    - tensorflow-ranking==0.5.0
+    - tensorflow-serving-api
+    - tensorflow-text==2.6.0
+    - talos==1.3
+    #- google-colab==1.0.0
+    - spacy==3.3.0
+    - tqdm==4.64.0
