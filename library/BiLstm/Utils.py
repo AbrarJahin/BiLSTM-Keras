@@ -18,7 +18,12 @@ DEFAULT_BATCH_SIZE = 128
 DEFAULT_EMBEDDING_SIZE = 384
 
 bertEmbeddingModel = SentenceTransformer('paraphrase-MiniLM-L6-v2')
-bertEmbeddingModel = pickle.load(open("./model/preTrainedBERT.model", 'rb'))
+bertEmbeddingModel = SentenceTransformer('all-mpnet-base-v2')
+bertEmbeddingModel = SentenceTransformer('multi-qa-mpnet-base-dot-v1')
+bertEmbeddingModel = SentenceTransformer('all-distilroberta-v1')
+bertEmbeddingModel = SentenceTransformer("nli-distilroberta-base-v2")
+
+bertEmbeddingModel = pickle.load(open("./model/preTrainedBERT.model", 'rb'))	#Tuned model
 
 def getDataListFromFile(fileAddress):
 	dataFrame = pd.read_csv(fileAddress, encoding= 'unicode_escape')
