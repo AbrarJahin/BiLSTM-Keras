@@ -15,9 +15,11 @@ class TripletGenereator(Sequence):
         self.validation_accuracy = []
 
     def __len__(self):
+        # Denotes the number of batches per epoch
         return math.ceil(float(len(self.y)) / self.batch_size)
 
     def __getitem__(self, idx):
+        # Generate one batch of data
         idxes = self.indices[idx * self.batch_size:(idx + 1) * self.batch_size]
         x_batch = np.zeros((len(idxes), self.max_length, self.embedding_size))
         y_batch = np.zeros((len(idxes),))
@@ -32,4 +34,5 @@ class TripletGenereator(Sequence):
         return np.array(x_batch), np.array(y_batch)
 
     def on_epoch_end(self):
+        # Updates indexes after each epoch
         np.random.shuffle(self.indices)

@@ -10,6 +10,7 @@ from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
 import matplotlib.pyplot as plt
+import pickle
 ############################################
 
 MAX_DEFAULT_SEQUENCE_LENGTH = 5
@@ -17,6 +18,7 @@ DEFAULT_BATCH_SIZE = 128
 DEFAULT_EMBEDDING_SIZE = 384
 
 bertEmbeddingModel = SentenceTransformer('paraphrase-MiniLM-L6-v2')
+bertEmbeddingModel = pickle.load(open("./model/preTrainedBERT.model", 'rb'))
 
 def getDataListFromFile(fileAddress):
 	dataFrame = pd.read_csv(fileAddress, encoding= 'unicode_escape')
@@ -27,10 +29,12 @@ def getPaddedWordsFromPhrase(phrase, maxSequenceLength = MAX_DEFAULT_SEQUENCE_LE
 	return words[:maxSequenceLength]+[""]*max(maxSequenceLength-len(words), 0)
 
 def getPhraseEmbedding(phrase):
+	embeddingLength = len(bertEmbeddingModel.encode([""])[0].tolist())
 	embedding = []
 	for word in getPaddedWordsFromPhrase(phrase):
 		if word == "":
-			wordEmbedding = [0]*384   #length of embedding is 384
+			#wordEmbedding = bertEmbeddingModel.encode([""])[0].tolist()
+			wordEmbedding = [0]*embeddingLength
 		else:
 			wordEmbedding = bertEmbeddingModel.encode([word])[0].tolist()
 		embedding.append(wordEmbedding)
@@ -60,9 +64,11 @@ def getTrainTestSplit(X, y, trainRatio = 0.2, validationRatio=0.25):
 	X_test, X_val, y_test, y_val = train_test_split(X_temp, y_temp, test_size=validationRatio, random_state=2) # 0.25 x 0.8 = 0.2
 	return (X_train, X_test, X_val), (y_train, y_test, y_val)
 
-def getSplittedGenerators(X, y, trainRatio = 0.6, validationRatio=0.17, embeddingSize = DEFAULT_EMBEDDING_SIZE, maxSequenceLength = MAX_DEFAULT_SEQUENCE_LENGTH, batch_size = DEFAULT_BATCH_SIZE):  #Remaining part is validation ratio
+def getSplittedGenerators(X, y, trainRatio = 0.6, validationRatio=0.20, embeddingSize = DEFAULT_EMBEDDING_SIZE, maxSequenceLength = MAX_DEFAULT_SEQUENCE_LENGTH, batch_size = DEFAULT_BATCH_SIZE):  #Remaining part is validation ratio
+	#print(type(X),isinstance(X, list))
+	embeddingSize = len(X[0][0])
 	(X_train, X_test, X_val), (y_train, y_test, y_val) = getTrainTestSplit(X, y, trainRatio, validationRatio)
-	print(len(y_train),len(y_test), len(y_val))
+	#print(len(y_train),len(y_test), len(y_val))
 	train_generator = TripletGenereator(
 		X_train,
 		y_train,
@@ -84,4 +90,5 @@ def getSplittedGenerators(X, y, trainRatio = 0.6, validationRatio=0.17, embeddin
 		max_length=maxSequenceLength,
 		embedding_size=embeddingSize
 	)
-	return train_generator, test_generator, validation_generator
+	#return train_generator, test_generator, validation_generator
+	return train_generator, (X_test, y_test), validation_generator
