@@ -15,7 +15,7 @@ class Attention:
         # Dot with word-level vector
         x_a = Dense(1, kernel_initializer = 'glorot_uniform', activation='linear', name="word-level_context")(x_a) #none, 52, 1
         x_a = Flatten()(x_a) # x_a is of shape (?,52,1), we flatten it to be (?,52)
-        att_out = Activation('softmax')(x_a) 
+        att_out = Activation('softmax')(x_a)
 
         # Clever trick to do elementwise multiplication of alpha_t with the correct h_t:
         # RepeatVector will blow it out to be (?,52, 512)

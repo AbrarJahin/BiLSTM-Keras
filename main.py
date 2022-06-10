@@ -4,8 +4,8 @@ from library.BiLstm.Utils import *
 csPhraseList = getDataListFromFile('./data/csTerms.csv')
 nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 
-#csPhraseList = csPhraseList[:20]
-#nonCsPhraseList = nonCsPhraseList[:20]
+csPhraseList = csPhraseList[:len(csPhraseList)//2]
+nonCsPhraseList = nonCsPhraseList[:len(nonCsPhraseList)//2]
 
 X, y = getEmbeddingXY(csPhraseList, nonCsPhraseList)
 
@@ -20,4 +20,6 @@ accuracy = lstmModel.test(testDataPair)
 predVAlues = lstmModel.predict(testDataPair[0])
 lstmModel.drawTrainTestAccuracyCurve()
 
-print(attention, trainHistory.history)
+print("Embedding Size = ",str(EMBEDDING_SIZE))
+
+print(lstmModel.confusionMatrix)

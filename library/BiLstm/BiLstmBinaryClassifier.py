@@ -48,7 +48,7 @@ class BiLstmBinaryClassifier:
         ax.plot(epoch, valLoss, color = "yellow", label = "Validation Loss")
 
         #plt.title('Train Accuracy = ', str(self.accuracy))
-        ax.set_title('Train Accuracy = '+ str(self.accuracy))
+        ax.set_title('Test Accuracy = '+ str(self.accuracy))
         fig.suptitle('ROC-AUC='+str(self.rocAuc)+", F1="+str(self.f1Score), fontsize=10)
         ###########Add more info
         #plt.text(.5, 1, 'self.precision', transform=fig.transFigure, horizontalalignment='center')
