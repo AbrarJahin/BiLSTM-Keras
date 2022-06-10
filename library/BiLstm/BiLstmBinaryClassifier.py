@@ -14,7 +14,7 @@ class BiLstmBinaryClassifier:
     def __init__(self, maxL, vectorLength):
         self.model, self.attention = self.__createLstmModel(maxL, vectorLength)
         self.model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-        self.model.summary()
+        #self.model.summary()
         self.earlyStopping = EarlyStopping(monitor='val_loss', patience=3,verbose=1, restore_best_weights=True)
         self.modelCheckpoint = ModelCheckpoint(os.path.join("./", "model", "bestBiLstmModel.h5"), monitor="val_loss",verbose=1, save_best_only=True)
         self.classTrainWeight = {
@@ -23,7 +23,7 @@ class BiLstmBinaryClassifier:
 	        }
 
     def train(self, train_generator, validation_generator):
-        self.trainHistory = self.model.fit_generator(train_generator, validation_data=validation_generator, epochs=10000, callbacks=[self.modelCheckpoint, self.earlyStopping], class_weight=self.classTrainWeight)
+        self.trainHistory = self.model.fit(train_generator, validation_data=validation_generator, epochs=10000, callbacks=[self.modelCheckpoint, self.earlyStopping], class_weight=self.classTrainWeight)
 
     def _plotPartialScatterPlot(self, pltFig, dataPoints, color = 'green', label = 'Line 1', dimention = 2):
         if dimention == 2:
@@ -90,11 +90,11 @@ class BiLstmBinaryClassifier:
 
     def __createLstmModel(self, maxL, vectorLength):
         net_input = Input(shape=(maxL,vectorLength))
-        lstm = Bidirectional(LSTM(256, return_sequences=True))(net_input)
-        x, attention = Attention()(lstm)
-        dense = Dense(1, activation="sigmoid")(x)
+        lstmLayer = Bidirectional(LSTM(vectorLength, return_sequences=True))(net_input)  #256 = vectorLength
+        attentionLayerOut, attentionLayer = Attention()(lstmLayer)
+        dense = Dense(1, activation="sigmoid")(attentionLayerOut)
         model = Model(inputs=net_input, outputs=dense)
-        track = Model(inputs=net_input, outputs=attention)
+        track = Model(inputs=net_input, outputs=attentionLayer)
         #return model, track
-        return model, attention
+        return model, attentionLayer
    

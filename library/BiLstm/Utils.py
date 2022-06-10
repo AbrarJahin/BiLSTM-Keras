@@ -69,31 +69,34 @@ def getTrainTestSplit(X, y, trainRatio = 0.2, validationRatio=0.25):
 	X_test, X_val, y_test, y_val = train_test_split(X_temp, y_temp, test_size=validationRatio, random_state=2) # 0.25 x 0.8 = 0.2
 	return (X_train, X_test, X_val), (y_train, y_test, y_val)
 
+def getGenerator(X, y, batch_size, maxSequenceLength, embeddingSize):
+	return TripletGenereator(
+		X,
+		y,
+		batch_size=batch_size,
+		max_length=maxSequenceLength,
+		embedding_size=embeddingSize
+	)
+
 def getSplittedGenerators(X, y, trainRatio = 0.6, validationRatio=0.20, embeddingSize = DEFAULT_EMBEDDING_SIZE, maxSequenceLength = MAX_DEFAULT_SEQUENCE_LENGTH, batch_size = DEFAULT_BATCH_SIZE):  #Remaining part is validation ratio
 	#print(type(X),isinstance(X, list))
 	embeddingSize = len(X[0][0])
 	(X_train, X_test, X_val), (y_train, y_test, y_val) = getTrainTestSplit(X, y, trainRatio, validationRatio)
 	#print(len(y_train),len(y_test), len(y_val))
-	train_generator = TripletGenereator(
-		X_train,
-		y_train,
-		batch_size=batch_size,
-		max_length=maxSequenceLength,
-		embedding_size=embeddingSize
-	)
-	test_generator = TripletGenereator(
-		X_test,
-		y_test,
-		batch_size=batch_size,
-		max_length=maxSequenceLength,
-		embedding_size=embeddingSize
-	)
-	validation_generator = TripletGenereator(
-		X_val,
-		y_val,
-		batch_size=batch_size,
-		max_length=maxSequenceLength,
-		embedding_size=embeddingSize
-	)
+	train_generator = getGenerator(X_train, y_train, batch_size, maxSequenceLength, embeddingSize)
+	#test_generator = TripletGenereator(
+	#	X_test,
+	#	y_test,
+	#	batch_size=batch_size,
+	#	max_length=maxSequenceLength,
+	#	embedding_size=embeddingSize
+	#)
+	validation_generator = getGenerator(X_val, y_val, batch_size, maxSequenceLength, embeddingSize)
 	#return train_generator, test_generator, validation_generator
 	return train_generator, (X_test, y_test), validation_generator
+
+def getWronglyPredicted(phraseList, predList, toBePredicted = 1):
+	wronglyPredicted = []
+	for i,v in enumerate(predList):
+		if v!=toBePredicted: wronglyPredicted.append(phraseList[i])
+	return wronglyPredicted
