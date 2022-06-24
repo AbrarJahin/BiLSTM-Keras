@@ -8,8 +8,8 @@ nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 #csPhraseList = csPhraseList[:len(csPhraseList)//2]
 #nonCsPhraseList = nonCsPhraseList[:len(nonCsPhraseList)//2]
 
-csPhraseList = csPhraseList[:20]
-nonCsPhraseList = nonCsPhraseList[:20]
+#csPhraseList = csPhraseList[:20]
+#nonCsPhraseList = nonCsPhraseList[:20]
 
 X, y = getEmbeddingXY(csPhraseList, nonCsPhraseList)
 
@@ -31,17 +31,35 @@ for _ in range(iterations):
 
 	# Try to extract CS Results and non_CS results
 	csX = X[:len(csPhraseList)]
-	csAttention = lstmModel.attention(csX)
+	csAttentions = lstmModel.attention(csX)
 	csPred = lstmModel.predict(csX)
 	nonCsX = X[len(csPhraseList):]
-	nonCsAttention = lstmModel.attention(nonCsX)
+	nonCsAttentions = lstmModel.attention(nonCsX)
 	nonCsPred = lstmModel.predict(nonCsX)
 	###################
 	csWrong = getWronglyPredicted(csPhraseList, csPred, 1)
 	nonCsWrong = getWronglyPredicted(nonCsPhraseList, nonCsPred, 0)
-
-	pd.DataFrame(csWrong, columns=["data"]).to_csv('./output/CsWrong.csv', index=False, header=None)
-	pd.DataFrame(nonCsWrong, columns=["data"]).to_csv('./output/NonCsWrong.csv', index=False, header=None)
+	##
+	csWrong, csWrongEmbedding = getWronglyPredicted(csPhraseList, csPred, 1, csX)
+	nonCsWrong, nonCsWrongEmbedding = getWronglyPredicted(nonCsPhraseList, nonCsPred, 0, nonCsX)
+	###################
+	# For csWrong
+	csWrongProbabilities = lstmModel.predict(csWrongEmbedding, isReturnProbability=True)
+	csWrongAttentions = lstmModel.attention(csWrongEmbedding, isConvertibleToStr = True)
+	# For nonCsWrong
+	nonCsWrongProbabilities = lstmModel.predict(nonCsWrongEmbedding, isReturnProbability=True)
+	nonCsWrongAttentions = lstmModel.attention(nonCsWrongEmbedding, isConvertibleToStr = True)
+	#pd.DataFrame(csWrong, columns=["data"]).to_csv('./output/CsWrong.csv', index=False, header=None)
+	pd.DataFrame({
+		'Phrase': csWrong,
+		'Probablity': csWrongProbabilities,
+		'Attention': csWrongAttentions
+		}).to_csv('./output/CsWrong.csv', index=False, header=True)
+	pd.DataFrame({
+		'Phrase': nonCsWrong,
+		'Probablity': nonCsWrongProbabilities,
+		'Attention': nonCsWrongAttentions
+		}).to_csv('./output/NonCsWrong.csv', index=False, header=True)
 print("#################################################################################")
 print("Accuracy", accuracy/iterations)
 

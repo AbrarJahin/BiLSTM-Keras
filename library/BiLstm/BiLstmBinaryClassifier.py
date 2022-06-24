@@ -89,23 +89,23 @@ class BiLstmBinaryClassifier:
     def attention(self, embeddings, isConvertibleToStr = False):
         if np.array(embeddings).ndim==3:
             pred = self.attentionLayerModel.predict(embeddings).tolist()
-            return [", ".join(x) if not isConvertibleToStr else x for x in pred]
+            return [", ".join(map(str,x)) if isConvertibleToStr else x for x in pred]
         elif np.array(embeddings).ndim==2:
             embeddings = [embeddings]
             pred = self.attentionLayerModel.predict(embeddings).tolist()
-            val = [", ".join(x) if not isConvertibleToStr else x for x in pred]
+            val = [", ".join(map(str,x)) if isConvertibleToStr else x for x in pred]
             return val[0]
         else:
             return "Dimension Error!"
 
-    def predict(self, embeddings, threshold = 0.5):
+    def predict(self, embeddings, threshold = 0.5, isReturnProbability = False):
         if np.array(embeddings).ndim==3:
             pred = self.model.predict(embeddings).tolist()
-            return [1 if x[0]>=threshold else 0 for x in pred]
+            return [x[0] if isReturnProbability else (1 if x[0]>=threshold else 0) for x in pred]
         elif np.array(embeddings).ndim==2:
             embeddings = [embeddings]
             pred = self.model.predict(embeddings).tolist()
-            val = [1 if x[0]>=threshold else 0 for x in pred]
+            val = [x[0] if isReturnProbability else (1 if x[0]>=threshold else 0) for x in pred]
             return val[0]
         else:
             return "Dimension Error!!"
