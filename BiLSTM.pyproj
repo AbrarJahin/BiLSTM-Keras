@@ -31,6 +31,9 @@
     <Compile Include="library\BiLstm\Utils.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="library\BiLstm\WriteLayerValCallback.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="main.py" />
     <Compile Include="library\BiLstm\Attention.py">
       <SubType>Code</SubType>

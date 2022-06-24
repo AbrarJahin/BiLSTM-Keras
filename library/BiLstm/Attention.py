@@ -29,5 +29,6 @@ class Attention:
         # Now we sum over the resulting word representations
             out = Lambda(lambda x : K.sum(x, axis=1), name='expectation_over_words')(out) #none, 512
         if return_attention:
+            #out = (out, x_a)
             out = (out, att_out)
         return out

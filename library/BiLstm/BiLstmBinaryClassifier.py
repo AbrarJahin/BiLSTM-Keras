@@ -9,10 +9,11 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
+import numpy as np
 
 class BiLstmBinaryClassifier:
     def __init__(self, maxL, vectorLength):
-        self.model, self.attention = self.__createLstmModel(maxL, vectorLength)
+        self.model, self.attentionLayerModel = self.__createLstmModel(maxL, vectorLength)
         self.model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
         #self.model.summary()
         self.earlyStopping = EarlyStopping(monitor='val_loss', patience=3,verbose=1, restore_best_weights=True)
@@ -84,9 +85,30 @@ class BiLstmBinaryClassifier:
         self.precision, self.recall, self.fscore, self.support = precision_recall_fscore_support(yTrue, yPred, average='macro', beta=0.5)
         return self.accuracy
 
+    #Return the attention layer values
+    def attention(self, embeddings, isConvertibleToStr = False):
+        if np.array(embeddings).ndim==3:
+            pred = self.attentionLayerModel.predict(embeddings).tolist()
+            return [", ".join(x) if not isConvertibleToStr else x for x in pred]
+        elif np.array(embeddings).ndim==2:
+            embeddings = [embeddings]
+            pred = self.attentionLayerModel.predict(embeddings).tolist()
+            val = [", ".join(x) if not isConvertibleToStr else x for x in pred]
+            return val[0]
+        else:
+            return "Dimension Error!"
+
     def predict(self, embeddings, threshold = 0.5):
-        pred = self.model.predict(embeddings).tolist()
-        return [1 if x[0]>=threshold else 0 for x in pred]
+        if np.array(embeddings).ndim==3:
+            pred = self.model.predict(embeddings).tolist()
+            return [1 if x[0]>=threshold else 0 for x in pred]
+        elif np.array(embeddings).ndim==2:
+            embeddings = [embeddings]
+            pred = self.model.predict(embeddings).tolist()
+            val = [1 if x[0]>=threshold else 0 for x in pred]
+            return val[0]
+        else:
+            return "Dimension Error!!"
 
     def __createLstmModel(self, maxL, vectorLength):
         net_input = Input(shape=(maxL,vectorLength))
@@ -94,7 +116,6 @@ class BiLstmBinaryClassifier:
         attentionLayerOut, attentionLayer = Attention()(lstmLayer)
         dense = Dense(1, activation="sigmoid")(attentionLayerOut)
         model = Model(inputs=net_input, outputs=dense)
-        track = Model(inputs=net_input, outputs=attentionLayer)
-        #return model, track
-        return model, attentionLayer
+        attentionLayerModel = Model(inputs=net_input, outputs=attentionLayer)
+        return model, attentionLayerModel
    

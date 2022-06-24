@@ -8,8 +8,8 @@ nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 #csPhraseList = csPhraseList[:len(csPhraseList)//2]
 #nonCsPhraseList = nonCsPhraseList[:len(nonCsPhraseList)//2]
 
-#csPhraseList = csPhraseList[:20]
-#nonCsPhraseList = nonCsPhraseList[:20]
+csPhraseList = csPhraseList[:20]
+nonCsPhraseList = nonCsPhraseList[:20]
 
 X, y = getEmbeddingXY(csPhraseList, nonCsPhraseList)
 
@@ -31,13 +31,15 @@ for _ in range(iterations):
 
 	# Try to extract CS Results and non_CS results
 	csX = X[:len(csPhraseList)]
+	csAttention = lstmModel.attention(csX)
 	csPred = lstmModel.predict(csX)
 	nonCsX = X[len(csPhraseList):]
+	nonCsAttention = lstmModel.attention(nonCsX)
 	nonCsPred = lstmModel.predict(nonCsX)
-	#print(csPred)
+	###################
 	csWrong = getWronglyPredicted(csPhraseList, csPred, 1)
-	#print(nonCsPred)
 	nonCsWrong = getWronglyPredicted(nonCsPhraseList, nonCsPred, 0)
+
 	pd.DataFrame(csWrong, columns=["data"]).to_csv('./output/CsWrong.csv', index=False, header=None)
 	pd.DataFrame(nonCsWrong, columns=["data"]).to_csv('./output/NonCsWrong.csv', index=False, header=None)
 print("#################################################################################")
