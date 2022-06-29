@@ -8,8 +8,8 @@ nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 #csPhraseList = csPhraseList[:len(csPhraseList)//2]
 #nonCsPhraseList = nonCsPhraseList[:len(nonCsPhraseList)//2]
 
-#csPhraseList = csPhraseList[:20]
-#nonCsPhraseList = nonCsPhraseList[:20]
+csPhraseList = csPhraseList[:20]
+nonCsPhraseList = nonCsPhraseList[:20]
 
 X, y = getEmbeddingXY(csPhraseList, nonCsPhraseList)
 
@@ -26,8 +26,8 @@ for _ in range(iterations):
 	accuracy += lstmModel.test(testDataPair)
 	predValues = lstmModel.predict(testDataPair[0])
 	#lstmModel.drawTrainTestAccuracyCurve()
-	print("Embedding Size = ",str(EMBEDDING_SIZE))
-	print(lstmModel.confusionMatrix)
+	#print("Embedding Size = ",str(EMBEDDING_SIZE))
+	lstmModel.getConfusionMatrix()
 
 	# Try to extract CS Results and non_CS results
 	csX = X[:len(csPhraseList)]
@@ -39,7 +39,7 @@ for _ in range(iterations):
 	###################
 	csWrong = getWronglyPredicted(csPhraseList, csPred, 1)
 	nonCsWrong = getWronglyPredicted(nonCsPhraseList, nonCsPred, 0)
-	##
+	###################
 	csWrong, csWrongEmbedding = getWronglyPredicted(csPhraseList, csPred, 1, csX)
 	nonCsWrong, nonCsWrongEmbedding = getWronglyPredicted(nonCsPhraseList, nonCsPred, 0, nonCsX)
 	###################

@@ -12,19 +12,23 @@ import matplotlib
 import numpy as np
 
 class BiLstmBinaryClassifier:
-    def __init__(self, maxL, vectorLength):
-        self.model, self.attentionLayerModel = self.__createLstmModel(maxL, vectorLength)
+    def __init__(self, maxL, embeddingLength):
+        self._embeddingLength = embeddingLength
+        self.model, self.attentionLayerModel = self.__createLstmModel(maxL, embeddingLength)
         self.model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
         #self.model.summary()
-        self.earlyStopping = EarlyStopping(monitor='val_loss', patience=3,verbose=1, restore_best_weights=True)
+        # Stop model on early step if accuricy stopps
+        self.earlyStopping = EarlyStopping(monitor='val_loss', patience=3, verbose=1, restore_best_weights=True)
+        # Save best model
         self.modelCheckpoint = ModelCheckpoint(os.path.join("./", "model", "bestBiLstmModel.h5"), monitor="val_loss",verbose=1, save_best_only=True)
+        # Training weights for each data types
         self.classTrainWeight = {
 		        0: 1.,
 		        1: 1.
 	        }
 
-    def train(self, train_generator, validation_generator):
-        self.trainHistory = self.model.fit(train_generator, validation_data=validation_generator, epochs=10000, callbacks=[self.modelCheckpoint, self.earlyStopping], class_weight=self.classTrainWeight)
+    def train(self, trainGenerator, validationGenerator):
+        self.trainHistory = self.model.fit(trainGenerator, validation_data=validationGenerator, epochs=10000, callbacks=[self.modelCheckpoint, self.earlyStopping], class_weight=self.classTrainWeight)
 
     def _plotPartialScatterPlot(self, pltFig, dataPoints, color = 'green', label = 'Line 1', dimention = 2):
         if dimention == 2:
@@ -67,7 +71,8 @@ class BiLstmBinaryClassifier:
         yPred = [1 if x[0]>=threshold else 0 for x in pred]
         yProb = [x[0] for x in pred]
         self.accuracy = accuracy_score(yTrue, yPred, normalize=True)
-        self.confusionMatrix = confusion_matrix(yTrue, yPred, labels=[0,1], normalize=None)
+        self._testSize = len(yTrue)
+        self._confusionMatrix = confusion_matrix(yTrue, yPred, labels=[0,1], normalize=None).tolist()
         '''
         0 correct   |   0 wrong
         1 wrong     |   1 correct
@@ -98,6 +103,7 @@ class BiLstmBinaryClassifier:
         else:
             return "Dimension Error!"
 
+    #Return the prediction values
     def predict(self, embeddings, threshold = 0.5, isReturnProbability = False):
         if np.array(embeddings).ndim==3:
             pred = self.model.predict(embeddings).tolist()
@@ -111,11 +117,30 @@ class BiLstmBinaryClassifier:
             return "Dimension Error!!"
 
     def __createLstmModel(self, maxL, vectorLength):
-        net_input = Input(shape=(maxL,vectorLength))
-        lstmLayer = Bidirectional(LSTM(vectorLength, return_sequences=True))(net_input)  #256 = vectorLength
+        netInput = Input(shape=(maxL, vectorLength))
+
+        lstmLayer = Bidirectional(LSTM(vectorLength, return_sequences=True))(netInput)  #256 = vectorLength
         attentionLayerOut, attentionLayer = Attention()(lstmLayer)
         dense = Dense(1, activation="sigmoid")(attentionLayerOut)
-        model = Model(inputs=net_input, outputs=dense)
-        attentionLayerModel = Model(inputs=net_input, outputs=attentionLayer)
+        model = Model(inputs=netInput, outputs=dense)
+        attentionLayerModel = Model(inputs=netInput, outputs=attentionLayer)
         return model, attentionLayerModel
-   
+
+    def getConfusionMatrix(self):
+        try:
+            '''
+            0 correct   |   0 wrong
+            1 wrong     |   1 correct
+            '''
+            #print(self.confusionMatrix)
+            print("------------------------------------------------")
+            print("Embedding Size = ", self._embeddingLength)
+            print("Test Data Size = ", self._testSize)
+            print("Non-CS correct = ", self._confusionMatrix[0][0])
+            print("Non-CS wrong = ", self._confusionMatrix[0][1])
+            print("CS wrong = ", self._confusionMatrix[1][0])
+            print("CS correct = ", self._confusionMatrix[1][1])
+            print("------------------------------------------------")
+        except Exception as ex:
+            print("Model test is not run yet!")
+            print(ex)

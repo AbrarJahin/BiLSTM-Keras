@@ -32,6 +32,7 @@ def getDataListFromFile(fileAddress):
 def getPaddedWordsFromPhrase(phrase, maxSequenceLength = MAX_DEFAULT_SEQUENCE_LENGTH):
 	words = phrase.split(" ")
 	return words[:maxSequenceLength]+[""]*max(maxSequenceLength-len(words), 0)
+	return words[:maxSequenceLength]
 
 def getPhraseEmbedding(phrase):
 	embeddingLength = len(bertEmbeddingModel.encode([""])[0].tolist())
@@ -73,9 +74,9 @@ def getGenerator(X, y, batch_size, maxSequenceLength, embeddingSize):
 	return TripletGenereator(
 		X,
 		y,
-		batch_size=batch_size,
-		max_length=maxSequenceLength,
-		embedding_size=embeddingSize
+		batchSize=batch_size,
+		maxLength=maxSequenceLength,
+		embeddingSize=embeddingSize
 	)
 
 def getSplittedGenerators(X, y, trainRatio = 0.6, validationRatio=0.20, embeddingSize = DEFAULT_EMBEDDING_SIZE, maxSequenceLength = MAX_DEFAULT_SEQUENCE_LENGTH, batch_size = DEFAULT_BATCH_SIZE):  #Remaining part is validation ratio
