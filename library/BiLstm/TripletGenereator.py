@@ -1,12 +1,16 @@
 import numpy as np
 import math
 from tensorflow.keras.utils import Sequence
+import tensorflow as tf
+from keras.preprocessing.sequence import pad_sequences
 
 class TripletGenereator(Sequence):
     def convertToTensor(self, x, maxLength=5, embeddingSize=384):
+        ax = tf.keras.preprocessing.sequence.pad_sequences(x, maxlen=maxLength, padding='post', truncating='pre', dtype='float64')
+        ay = pad_sequences(x, maxlen=maxLength, padding='post', truncating='pre', dtype='float64')
         if isinstance(x, list):
           x = np.array(x)
-        return x
+        return ay
 
     def __init__(self, x, y, batchSize=32, maxLength=5, embeddingSize=384):
         x = self.convertToTensor(x, maxLength, embeddingSize)
@@ -29,10 +33,10 @@ class TripletGenereator(Sequence):
         yBatch = np.zeros((len(idxes),))
         for i, idx in enumerate(idxes):
             x = self.x[idx]
-            if x.shape[0] < self.maxLength:
-                x = np.vstack([x, np.zeros((self.maxLength - x.shape[0], self.embeddingSize))])
-            else:
-                x = x[:self.maxLength, :]
+            #if x.shape[0] < self.maxLength:
+            #    x = np.vstack([x, np.zeros((self.maxLength - x.shape[0], self.embeddingSize))])
+            #else:
+            #    x = x[:self.maxLength, :]
             xBatch[i] = x
             yBatch[i] = self.y[idx]
         return np.array(xBatch), np.array(yBatch)
