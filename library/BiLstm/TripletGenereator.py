@@ -3,9 +3,13 @@ import math
 from tensorflow.keras.utils import Sequence
 
 class TripletGenereator(Sequence):
-    def __init__(self, x, y, batchSize=32, maxLength=5, embeddingSize=384):
+    def convertToTensor(self, x, maxLength=5, embeddingSize=384):
         if isinstance(x, list):
           x = np.array(x)
+        return x
+
+    def __init__(self, x, y, batchSize=32, maxLength=5, embeddingSize=384):
+        x = self.convertToTensor(x, maxLength, embeddingSize)
         self.x, self.y = x, y
         self.batchSize = batchSize
         self.maxLength = maxLength

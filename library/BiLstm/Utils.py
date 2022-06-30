@@ -98,8 +98,8 @@ def getSplittedGenerators(X, y, trainRatio = 0.6, validationRatio=0.20, embeddin
 
 def getWronglyPredicted(phraseList, predList, toBePredicted = 1, embedding = None):
 	wronglyPredicted, filteredEmbedding = [], []
-	for i,v in enumerate(predList):
-		if v!=toBePredicted:
+	for i, v in enumerate(predList):
+		if v != toBePredicted:
 			wronglyPredicted.append(phraseList[i])
 			if embedding: filteredEmbedding.append(embedding[i])
 	return wronglyPredicted, filteredEmbedding if embedding else wronglyPredicted
