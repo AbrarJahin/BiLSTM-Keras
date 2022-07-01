@@ -51,12 +51,16 @@ for _ in range(iterations):
 	nonCsWrongAttentions = lstmModel.attention(nonCsWrongEmbedding, isConvertibleToStr = True)
 	#pd.DataFrame(csWrong, columns=["data"]).to_csv('./output/CsWrong.csv', index=False, header=None)
 	pd.DataFrame({
+		'IfCS': [1]*len(csWrong),
 		'Phrase': csWrong,
+		'Correct': ['']*len(csWrong),
 		'Probablity': csWrongProbabilities,
 		'Attention': csWrongAttentions
 		}).to_csv('./output/CsWrong.csv', index=False, header=True)
 	pd.DataFrame({
+		'IfCS': [0]*len(nonCsWrong),
 		'Phrase': nonCsWrong,
+		'Correct': ['']*len(nonCsWrong),
 		'Probablity': nonCsWrongProbabilities,
 		'Attention': nonCsWrongAttentions
 		}).to_csv('./output/NonCsWrong.csv', index=False, header=True)

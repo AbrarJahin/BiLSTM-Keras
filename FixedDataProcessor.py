@@ -7,7 +7,7 @@ actualNonCsPhraseCsv = './data/nonCsTerms.csv'
 
 #This 2 files are manually entered
 fixedCsPhraseCsv = './output/CsWrong.csv'
-fixedNonCsPhraseCsv = './output/NonCsWrong_modified.csv'
+fixedNonCsPhraseCsv = './output/NonCsWrong.csv'
 
 csPhraseList = []
 nonCsPhraseList = []
