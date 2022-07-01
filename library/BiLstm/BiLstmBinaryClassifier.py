@@ -101,7 +101,7 @@ class BiLstmBinaryClassifier:
             valX = convertToTensor(embeddings, self._maxLength, self._embeddingLength)
             pred = self.attentionLayerModel.predict(valX).tolist()
             #valY = [", ".join(map(str,x)) if isConvertibleToStr else x for x in pred]
-            valY = [(', '.join(str(y)[:6] for y in x)) for x in pred] if isConvertibleToStr else pred
+            valY = [(', '.join('{:.4f}'.format(y) for y in x)) for x in pred] if isConvertibleToStr else pred
             return valY[0] if ifSingleData else valY
         except Exception as ex:
             print(ex)
