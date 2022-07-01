@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>045bcbf5-3738-49de-b5e0-198dc84637c5</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>main.py</StartupFile>
+    <StartupFile>FixedDataProcessor.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FixedDataProcessor.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="library\BiLstm\BiLstmBinaryClassifier.py">
       <SubType>Code</SubType>
     </Compile>
