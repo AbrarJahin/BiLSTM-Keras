@@ -84,15 +84,27 @@ def getSplittedGenerators(X, y, trainRatio = 0.6, validationRatio=0.20, embeddin
 	embeddingSize = len(X[0][0])
 	(X_train, X_test, X_val), (y_train, y_test, y_val) = getTrainTestSplit(X, y, trainRatio, validationRatio)
 	#print(len(y_train),len(y_test), len(y_val))
-	train_generator = getGenerator(X_train, y_train, batch_size, maxSequenceLength, embeddingSize)
-	#test_generator = TripletGenereator(
-	#	X_test,
-	#	y_test,
-	#	batch_size=batch_size,
-	#	max_length=maxSequenceLength,
-	#	embedding_size=embeddingSize
-	#)
-	validation_generator = getGenerator(X_val, y_val, batch_size, maxSequenceLength, embeddingSize)
+	train_generator = getGenerator(
+								X_train,
+								y_train,
+								batch_size,
+								maxSequenceLength,
+								embeddingSize
+							)
+	test_generator = TripletGenereator(
+								X_test,
+								y_test,
+								batchSize=batch_size,
+								maxLength=maxSequenceLength,
+								embeddingSize=embeddingSize
+							)
+	validation_generator = getGenerator(
+								X_val,
+								y_val,
+								batch_size,
+								maxSequenceLength,
+								embeddingSize
+							)
 	#return train_generator, test_generator, validation_generator
 	return train_generator, (X_test, y_test), validation_generator
 

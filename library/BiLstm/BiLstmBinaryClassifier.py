@@ -10,9 +10,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
+from library.BiLstm.Preprocessing import convertToTensor
 
 class BiLstmBinaryClassifier:
     def __init__(self, maxL, embeddingLength):
+        self._maxLength = maxL
         self._embeddingLength = embeddingLength
         self.model, self.attentionLayerModel = self.__createLstmModel(maxL, embeddingLength)
         self.model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
@@ -67,7 +69,8 @@ class BiLstmBinaryClassifier:
         plt.show()
 
     def test(self, testPair, threshold = 0.5):
-        yTrue, pred = testPair[1] ,self.model.predict(testPair[0]).tolist()
+        testX = convertToTensor(testPair[0], self._maxLength, self._embeddingLength)
+        yTrue, pred = testPair[1] ,self.model.predict(testX).tolist()
         yPred = [1 if x[0]>=threshold else 0 for x in pred]
         yProb = [x[0] for x in pred]
         self.accuracy = accuracy_score(yTrue, yPred, normalize=True)
@@ -91,30 +94,31 @@ class BiLstmBinaryClassifier:
         return self.accuracy
 
     #Return the attention layer values
-    def attention(self, embeddings, isConvertibleToStr = False):
-        if np.array(embeddings).ndim==3:
-            pred = self.attentionLayerModel.predict(embeddings).tolist()
-            return [", ".join(map(str,x)) if isConvertibleToStr else x for x in pred]
-        elif np.array(embeddings).ndim==2:
-            embeddings = [embeddings]
-            pred = self.attentionLayerModel.predict(embeddings).tolist()
-            val = [", ".join(map(str,x)) if isConvertibleToStr else x for x in pred]
-            return val[0]
-        else:
-            return "Dimension Error!"
+    def attention(self, embeddings, isConvertibleToStr = True):
+        try:
+            ifSingleData = not isinstance(embeddings[0][0], list)
+            if ifSingleData: embeddings = [embeddings]
+            valX = convertToTensor(embeddings, self._maxLength, self._embeddingLength)
+            pred = self.attentionLayerModel.predict(valX).tolist()
+            #valY = [", ".join(map(str,x)) if isConvertibleToStr else x for x in pred]
+            valY = [(', '.join(str(y)[:6] for y in x)) for x in pred] if isConvertibleToStr else pred
+            return valY[0] if ifSingleData else valY
+        except Exception as ex:
+            print(ex)
+            return "Wrong Data"
 
     #Return the prediction values
     def predict(self, embeddings, threshold = 0.5, isReturnProbability = False):
-        if np.array(embeddings).ndim==3:
-            pred = self.model.predict(embeddings).tolist()
-            return [x[0] if isReturnProbability else (1 if x[0]>=threshold else 0) for x in pred]
-        elif np.array(embeddings).ndim==2:
-            embeddings = [embeddings]
-            pred = self.model.predict(embeddings).tolist()
-            val = [x[0] if isReturnProbability else (1 if x[0]>=threshold else 0) for x in pred]
-            return val[0]
-        else:
-            return "Dimension Error!!"
+        try:
+            ifSingleData = not isinstance(embeddings[0][0], list)
+            if ifSingleData: embeddings = [embeddings]
+            valX = convertToTensor(embeddings, self._maxLength, self._embeddingLength)
+            pred = self.model.predict(valX).tolist()
+            valY = [x[0] if isReturnProbability else (1 if x[0]>=threshold else 0) for x in pred]
+            return valY[0] if ifSingleData else valY
+        except Exception as ex:
+            print(ex)
+            return 'Data Not Valid'
 
     def __createLstmModel(self, maxL, vectorLength):
         netInput = Input(shape=(maxL, vectorLength))

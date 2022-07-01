@@ -8,8 +8,8 @@ nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 #csPhraseList = csPhraseList[:len(csPhraseList)//2]
 #nonCsPhraseList = nonCsPhraseList[:len(nonCsPhraseList)//2]
 
-csPhraseList = csPhraseList[:20]
-nonCsPhraseList = nonCsPhraseList[:20]
+#csPhraseList = csPhraseList[:20]
+#nonCsPhraseList = nonCsPhraseList[:20]
 
 X, y = getEmbeddingXY(csPhraseList, nonCsPhraseList)
 

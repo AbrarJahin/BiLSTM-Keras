@@ -25,6 +25,9 @@
     <Compile Include="library\BiLstm\BiLstmBinaryClassifier.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="library\BiLstm\Preprocessing.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="library\BiLstm\TripletGenereator.py">
       <SubType>Code</SubType>
     </Compile>

@@ -1,26 +1,16 @@
 import numpy as np
 import math
 from tensorflow.keras.utils import Sequence
-import tensorflow as tf
-from keras.preprocessing.sequence import pad_sequences
+from library.BiLstm.Preprocessing import convertToTensor
 
 class TripletGenereator(Sequence):
-    def convertToTensor(self, x, maxLength=5, embeddingSize=384):
-        ax = tf.keras.preprocessing.sequence.pad_sequences(x, maxlen=maxLength, padding='post', truncating='pre', dtype='float64')
-        ay = pad_sequences(x, maxlen=maxLength, padding='post', truncating='pre', dtype='float64')
-        if isinstance(x, list):
-          x = np.array(x)
-        return ay
-
     def __init__(self, x, y, batchSize=32, maxLength=5, embeddingSize=384):
-        x = self.convertToTensor(x, maxLength, embeddingSize)
-        self.x, self.y = x, y
+        self.x, self.y = convertToTensor(x, maxLength, embeddingSize), y
         self.batchSize = batchSize
         self.maxLength = maxLength
         self.embeddingSize = embeddingSize
         self.indices = np.arange(len(self.x))
         np.random.shuffle(self.indices)
-        self.validationAccuracy = []
 
     def __len__(self):
         # Denotes the number of batches per epoch
