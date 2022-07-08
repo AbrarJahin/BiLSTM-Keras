@@ -10,7 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
-from library.BiLstm.Preprocessing import convertToTensor
+from library.BiLstm.Preprocessing import convertToTensor, normalizePredList
 
 class BiLstmBinaryClassifier:
     def __init__(self, maxL, embeddingLength):
@@ -101,6 +101,7 @@ class BiLstmBinaryClassifier:
             valX = convertToTensor(embeddings, self._maxLength, self._embeddingLength)
             pred = self.attentionLayerModel.predict(valX).tolist()
             #valY = [", ".join(map(str,x)) if isConvertibleToStr else x for x in pred]
+            pred = normalizePredList(pred, revert = True)
             valY = [(', '.join('{:.4f}'.format(y) for y in x)) for x in pred] if isConvertibleToStr else pred
             return valY[0] if ifSingleData else valY
         except Exception as ex:
@@ -126,9 +127,9 @@ class BiLstmBinaryClassifier:
         lstmLayer = Bidirectional(LSTM(vectorLength, return_sequences=True))(netInput)  #256 = vectorLength
         attentionLayerOut, attentionLayer = Attention()(lstmLayer)
         dense = Dense(1, activation="sigmoid")(attentionLayerOut)
-        model = Model(inputs=netInput, outputs=dense)
+        biLstmModel = Model(inputs=netInput, outputs=dense)
         attentionLayerModel = Model(inputs=netInput, outputs=attentionLayer)
-        return model, attentionLayerModel
+        return biLstmModel, attentionLayerModel
 
     def getConfusionMatrix(self):
         try:

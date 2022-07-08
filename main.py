@@ -5,11 +5,11 @@ import pandas as pd
 csPhraseList = getDataListFromFile('./data/csTerms.csv')
 nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 
-csPhraseList = csPhraseList[:len(csPhraseList)//2]
-nonCsPhraseList = nonCsPhraseList[:len(nonCsPhraseList)//2]
+#csPhraseList = csPhraseList[:len(csPhraseList)//200]
+#nonCsPhraseList = nonCsPhraseList[:len(nonCsPhraseList)//200]
 
-csPhraseList = csPhraseList[:20]
-nonCsPhraseList = nonCsPhraseList[:20]
+#csPhraseList = csPhraseList[:20]
+#nonCsPhraseList = nonCsPhraseList[:20]
 
 X, y = getEmbeddingXY(csPhraseList, nonCsPhraseList)
 
@@ -85,7 +85,7 @@ for _ in range(iterations):
 	nonCsCorrectProbabilities = lstmModel.predict(nonCsCorrectEmbedding, isReturnProbability=True)
 	nonCsCorrecctAttentions = lstmModel.attention(nonCsCorrectEmbedding, isConvertibleToStr = True)
 	pd.DataFrame({
-		'IfCS': [1]*len(nonCsCorrect),
+		'IfCS': [0]*len(nonCsCorrect),
 		'Phrase': nonCsCorrect,
 		'Correct': ['']*len(nonCsCorrect),
 		'Probablity': nonCsCorrectProbabilities,

@@ -11,3 +11,13 @@ def convertToTensor(x, maxLength=5, embeddingSize=384):
     maskedX = maskingLayer(paddedX)
     maskValues = maskedX._keras_mask
     return maskedX
+
+def normalizePredList(predList, revert = True):
+    if revert == True: pred = [[1-v for v in row] for row in predList]
+    else: pred = predList
+    #return [[v/sum(row) for v in row] for row in pred]
+    output = []
+    for row in pred:
+        total = sum(row)
+        output.append([v/total for v in row])
+    return output
