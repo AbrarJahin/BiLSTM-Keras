@@ -5,11 +5,11 @@ import pandas as pd
 csPhraseList = getDataListFromFile('./data/csTerms.csv')
 nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 
-#csPhraseList = csPhraseList[:len(csPhraseList)//2]
-#nonCsPhraseList = nonCsPhraseList[:len(nonCsPhraseList)//2]
+csPhraseList = csPhraseList[:len(csPhraseList)//2]
+nonCsPhraseList = nonCsPhraseList[:len(nonCsPhraseList)//2]
 
-#csPhraseList = csPhraseList[:20]
-#nonCsPhraseList = nonCsPhraseList[:20]
+csPhraseList = csPhraseList[:20]
+nonCsPhraseList = nonCsPhraseList[:20]
 
 X, y = getEmbeddingXY(csPhraseList, nonCsPhraseList)
 
@@ -46,10 +46,6 @@ for _ in range(iterations):
 	# For csWrong
 	csWrongProbabilities = lstmModel.predict(csWrongEmbedding, isReturnProbability=True)
 	csWrongAttentions = lstmModel.attention(csWrongEmbedding, isConvertibleToStr = True)
-	# For nonCsWrong
-	nonCsWrongProbabilities = lstmModel.predict(nonCsWrongEmbedding, isReturnProbability=True)
-	nonCsWrongAttentions = lstmModel.attention(nonCsWrongEmbedding, isConvertibleToStr = True)
-	#pd.DataFrame(csWrong, columns=["data"]).to_csv('./output/CsWrong.csv', index=False, header=None)
 	pd.DataFrame({
 		'IfCS': [1]*len(csWrong),
 		'Phrase': csWrong,
@@ -57,6 +53,10 @@ for _ in range(iterations):
 		'Probablity': csWrongProbabilities,
 		'Attention': csWrongAttentions
 		}).to_csv('./output/CsWrong.csv', index=False, header=True)
+	# For nonCsWrong
+	nonCsWrongProbabilities = lstmModel.predict(nonCsWrongEmbedding, isReturnProbability=True)
+	nonCsWrongAttentions = lstmModel.attention(nonCsWrongEmbedding, isConvertibleToStr = True)
+	#pd.DataFrame(csWrong, columns=["data"]).to_csv('./output/CsWrong.csv', index=False, header=None)
 	pd.DataFrame({
 		'IfCS': [0]*len(nonCsWrong),
 		'Phrase': nonCsWrong,
@@ -64,6 +64,33 @@ for _ in range(iterations):
 		'Probablity': nonCsWrongProbabilities,
 		'Attention': nonCsWrongAttentions
 		}).to_csv('./output/NonCsWrong.csv', index=False, header=True)
+	#############################
+	#CS-CS-> CS Correct
+	csCorrect = getWronglyPredicted(csPhraseList, csPred, 0)
+	csCorrect, csCorrectEmbedding = getWronglyPredicted(csPhraseList, csPred, 0, csX)
+	csCorrectProbabilities = lstmModel.predict(csCorrectEmbedding, isReturnProbability=True)
+	csCorrecctAttentions = lstmModel.attention(csCorrectEmbedding, isConvertibleToStr = True)
+	pd.DataFrame({
+		'IfCS': [1]*len(csCorrect),
+		'Phrase': csCorrect,
+		'Correct': ['']*len(csCorrect),
+		'Probablity': csCorrectProbabilities,
+		'Attention': csCorrecctAttentions
+		}).to_csv('./output/CsCorrect.csv', index=False, header=True)
+	
+	#############################
+	#non-CS-NocCS -> NonCS Correct
+	nonCsCorrect = getWronglyPredicted(nonCsPhraseList, nonCsPred, 1)
+	nonCsCorrect, nonCsCorrectEmbedding = getWronglyPredicted(nonCsPhraseList, nonCsPred, 1, nonCsX)
+	nonCsCorrectProbabilities = lstmModel.predict(nonCsCorrectEmbedding, isReturnProbability=True)
+	nonCsCorrecctAttentions = lstmModel.attention(nonCsCorrectEmbedding, isConvertibleToStr = True)
+	pd.DataFrame({
+		'IfCS': [1]*len(nonCsCorrect),
+		'Phrase': nonCsCorrect,
+		'Correct': ['']*len(nonCsCorrect),
+		'Probablity': nonCsCorrectProbabilities,
+		'Attention': nonCsCorrecctAttentions
+		}).to_csv('./output/NonCsCorrect.csv', index=False, header=True)
 print("#################################################################################")
 print("Accuracy", accuracy/iterations)
 

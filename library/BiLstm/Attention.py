@@ -7,7 +7,7 @@ class Attention:
     def __call__(self, input, combine=True, return_attention=True):
         # Expects inp to be of size (?, number of words, embedding dimension)
 
-        repeatSize = int(input.shape[-1])  #512
+        repeatSize = int(input.shape[-1])  #384
 
         # Map through 1 Layer MLP
         denseLayer = Dense(repeatSize, kernel_initializer = 'glorot_uniform', activation="tanh", name="tanh_mlp")(input) #none, 52, 512
