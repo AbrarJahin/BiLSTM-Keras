@@ -2,6 +2,8 @@ from library.BiLstm.BiLstmBinaryClassifier import BiLstmBinaryClassifier
 from library.BiLstm.Utils import *
 import pandas as pd
 
+distance = getCosineDistance("map function")
+
 csPhraseList = getDataListFromFile('./data/csTerms.csv')
 nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 
@@ -12,6 +14,9 @@ nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 #nonCsPhraseList = nonCsPhraseList[:20]
 
 X, y = getEmbeddingXY(csPhraseList, nonCsPhraseList)
+
+### X = csPhraseList, nonCsPhraseList
+kNearestCorpusDict = getKNearestNeighboursFromCorpus(csPhraseList+nonCsPhraseList, X)
 
 #################################################################################
 iterations = 1
@@ -36,13 +41,13 @@ for _ in range(iterations):
 	nonCsX = X[len(csPhraseList):]
 	nonCsAttentions = lstmModel.attention(nonCsX)
 	nonCsPred = lstmModel.predict(nonCsX)
-	###################
+	####
 	csWrong = getWronglyPredicted(csPhraseList, csPred, 1)
 	nonCsWrong = getWronglyPredicted(nonCsPhraseList, nonCsPred, 0)
-	###################
+	####
 	csWrong, csWrongEmbedding = getWronglyPredicted(csPhraseList, csPred, 1, csX)
 	nonCsWrong, nonCsWrongEmbedding = getWronglyPredicted(nonCsPhraseList, nonCsPred, 0, nonCsX)
-	###################
+	##############################################################################
 	# For csWrong
 	csWrongProbabilities = lstmModel.predict(csWrongEmbedding, isReturnProbability=True)
 	csWrongAttentions = lstmModel.attention(csWrongEmbedding, isConvertibleToStr = True)
@@ -51,8 +56,11 @@ for _ in range(iterations):
 		'Phrase': csWrong,
 		'Correct': ['']*len(csWrong),
 		'Probablity': csWrongProbabilities,
-		'Attention': csWrongAttentions
+		'Attention': csWrongAttentions,
+		'Distance': getCosineDistanceList(csWrong),
+		'NearestInCorpus': [', '.join(str(e) for e in kNearestCorpusDict[x]) for x in csWrong]
 		}).to_csv('./output/CsWrong.csv', index=False, header=True)
+	##############################################################################
 	# For nonCsWrong
 	nonCsWrongProbabilities = lstmModel.predict(nonCsWrongEmbedding, isReturnProbability=True)
 	nonCsWrongAttentions = lstmModel.attention(nonCsWrongEmbedding, isConvertibleToStr = True)
@@ -62,9 +70,11 @@ for _ in range(iterations):
 		'Phrase': nonCsWrong,
 		'Correct': ['']*len(nonCsWrong),
 		'Probablity': nonCsWrongProbabilities,
-		'Attention': nonCsWrongAttentions
+		'Attention': nonCsWrongAttentions,
+		'Distance': getCosineDistanceList(nonCsWrong),
+		'NearestInCorpus': [', '.join(str(e) for e in kNearestCorpusDict[x]) for x in nonCsWrong]
 		}).to_csv('./output/NonCsWrong.csv', index=False, header=True)
-	#############################
+	##############################################################################
 	#CS-CS-> CS Correct
 	csCorrect = getWronglyPredicted(csPhraseList, csPred, 0)
 	csCorrect, csCorrectEmbedding = getWronglyPredicted(csPhraseList, csPred, 0, csX)
@@ -75,10 +85,11 @@ for _ in range(iterations):
 		'Phrase': csCorrect,
 		'Correct': ['']*len(csCorrect),
 		'Probablity': csCorrectProbabilities,
-		'Attention': csCorrecctAttentions
+		'Attention': csCorrecctAttentions,
+		'Distance': getCosineDistanceList(csCorrect),
+		'NearestInCorpus': [', '.join(str(e) for e in kNearestCorpusDict[x]) for x in csCorrect]
 		}).to_csv('./output/CsCorrect.csv', index=False, header=True)
-	
-	#############################
+	##############################################################################
 	#non-CS-NocCS -> NonCS Correct
 	nonCsCorrect = getWronglyPredicted(nonCsPhraseList, nonCsPred, 1)
 	nonCsCorrect, nonCsCorrectEmbedding = getWronglyPredicted(nonCsPhraseList, nonCsPred, 1, nonCsX)
@@ -89,7 +100,9 @@ for _ in range(iterations):
 		'Phrase': nonCsCorrect,
 		'Correct': ['']*len(nonCsCorrect),
 		'Probablity': nonCsCorrectProbabilities,
-		'Attention': nonCsCorrecctAttentions
+		'Attention': nonCsCorrecctAttentions,
+		'Distance': getCosineDistanceList(nonCsCorrect),
+		'NearestInCorpus': [', '.join(str(e) for e in kNearestCorpusDict[x]) for x in nonCsCorrect]
 		}).to_csv('./output/NonCsCorrect.csv', index=False, header=True)
 print("#################################################################################")
 print("Accuracy", accuracy/iterations)

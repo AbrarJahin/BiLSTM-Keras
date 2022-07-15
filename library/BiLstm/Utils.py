@@ -1,9 +1,10 @@
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer, util
 import pandas as pd
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from library.BiLstm.TripletGenereator import TripletGenereator
-
+import numpy as np
+import heapq
 ############################################
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
@@ -24,6 +25,44 @@ bertEmbeddingModel = SentenceTransformer('paraphrase-MiniLM-L6-v2')
 #bertEmbeddingModel = SentenceTransformer("nli-distilroberta-base-v2")
 
 #bertEmbeddingModel = pickle.load(open("./model/preTrainedBERT.model", 'rb'))	#Tuned model
+
+def getCosineDistance(embeddingOrText, secondPhrase = 'Computer Science'):
+	input = embeddingOrText
+	if isinstance(embeddingOrText, str):
+		embeddingOrText = bertEmbeddingModel.encode(embeddingOrText)
+	elif isinstance(embeddingOrText, list):
+		embeddingOrText = np.array(embeddingOrText)
+	passageEmbedding = bertEmbeddingModel.encode(secondPhrase)
+	cosineDistanceTensor = util.cos_sim(embeddingOrText, passageEmbedding)
+	cosineDistance = cosineDistanceTensor.numpy()[0].tolist()[0]
+	return 1 - abs(cosineDistance)
+
+def getCosineDistanceList(embeddingList):
+	output = []
+	for embedding in embeddingList:
+		try:
+			output.append(getCosineDistance(embedding))
+		except:
+			output.append("")
+	return [x for x in output]
+
+def getKNearestNeighboursFromCorpus(phraseList, embeddingList, k=10, ifInactive = False):
+	output = {}
+	for i, phrase in enumerate(phraseList):
+		print(i, '/', len(phraseList))
+		phraseEmbedding = bertEmbeddingModel.encode(phrase)
+		output[phrase], heap = [], []
+		if not ifInactive:
+			for current in phraseList:
+				if phrase == current: continue
+				currentEmbedding = bertEmbeddingModel.encode(current)
+				similirityTensor = util.cos_sim(phraseEmbedding, currentEmbedding)
+				similirity = abs(similirityTensor.numpy()[0].tolist()[0])
+				heapq.heappush(heap, (-similirity, current))	#As max heap
+			for _ in range(k):
+				popData = heapq.heappop(heap)
+				output[phrase].append(popData[1])
+	return output
 
 def getDataListFromFile(fileAddress):
 	dataFrame = pd.read_csv(fileAddress, encoding= 'unicode_escape')
