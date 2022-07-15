@@ -46,22 +46,21 @@ def getCosineDistanceList(embeddingList):
 			output.append("")
 	return [x for x in output]
 
-def getKNearestNeighboursFromCorpus(phraseList, embeddingList, k=10, ifInactive = False):
+def getKNearestNeighboursFromCorpus(phraseList, embeddingList, k=10):
 	output = {}
 	for i, phrase in enumerate(phraseList):
 		print(i, '/', len(phraseList))
 		phraseEmbedding = bertEmbeddingModel.encode(phrase)
 		output[phrase], heap = [], []
-		if not ifInactive:
-			for current in phraseList:
-				if phrase == current: continue
-				currentEmbedding = bertEmbeddingModel.encode(current)
-				similirityTensor = util.cos_sim(phraseEmbedding, currentEmbedding)
-				similirity = abs(similirityTensor.numpy()[0].tolist()[0])
-				heapq.heappush(heap, (-similirity, current))	#As max heap
-			for _ in range(k):
-				popData = heapq.heappop(heap)
-				output[phrase].append(popData[1])
+		for current in phraseList:
+			if phrase == current: continue
+			currentEmbedding = bertEmbeddingModel.encode(current)
+			similirityTensor = util.cos_sim(phraseEmbedding, currentEmbedding)
+			similirity = abs(similirityTensor.numpy()[0].tolist()[0])
+			heapq.heappush(heap, (-similirity, current))	#As max heap
+		for _ in range(k):
+			popData = heapq.heappop(heap)
+			output[phrase].append(popData[1])
 	return output
 
 def getDataListFromFile(fileAddress):

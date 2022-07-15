@@ -16,6 +16,7 @@ nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 X, y = getEmbeddingXY(csPhraseList, nonCsPhraseList)
 
 ### X = csPhraseList, nonCsPhraseList
+kNearestCorpusDict = {}
 kNearestCorpusDict = getKNearestNeighboursFromCorpus(csPhraseList+nonCsPhraseList, X)
 
 #################################################################################
@@ -58,7 +59,7 @@ for _ in range(iterations):
 		'Probablity': csWrongProbabilities,
 		'Attention': csWrongAttentions,
 		'Distance': getCosineDistanceList(csWrong),
-		'NearestInCorpus': [', '.join(str(e) for e in kNearestCorpusDict[x]) for x in csWrong]
+		'NearestInCorpus': [', '.join(str(e) for e in kNearestCorpusDict[x]) for x in csWrong] if x in kNearestCorpusDict else ['']*len(csWrong)
 		}).to_csv('./output/CsWrong.csv', index=False, header=True)
 	##############################################################################
 	# For nonCsWrong
@@ -72,7 +73,7 @@ for _ in range(iterations):
 		'Probablity': nonCsWrongProbabilities,
 		'Attention': nonCsWrongAttentions,
 		'Distance': getCosineDistanceList(nonCsWrong),
-		'NearestInCorpus': [', '.join(str(e) for e in kNearestCorpusDict[x]) for x in nonCsWrong]
+		'NearestInCorpus': [', '.join(str(e) for e in kNearestCorpusDict[x]) for x in nonCsWrong] if x in kNearestCorpusDict else ['']*len(nonCsWrong)
 		}).to_csv('./output/NonCsWrong.csv', index=False, header=True)
 	##############################################################################
 	#CS-CS-> CS Correct
@@ -87,7 +88,7 @@ for _ in range(iterations):
 		'Probablity': csCorrectProbabilities,
 		'Attention': csCorrecctAttentions,
 		'Distance': getCosineDistanceList(csCorrect),
-		'NearestInCorpus': [', '.join(str(e) for e in kNearestCorpusDict[x]) for x in csCorrect]
+		'NearestInCorpus': [', '.join(str(e) for e in kNearestCorpusDict[x]) for x in csCorrect] if x in kNearestCorpusDict else ['']*len(csCorrect)
 		}).to_csv('./output/CsCorrect.csv', index=False, header=True)
 	##############################################################################
 	#non-CS-NocCS -> NonCS Correct
@@ -102,7 +103,7 @@ for _ in range(iterations):
 		'Probablity': nonCsCorrectProbabilities,
 		'Attention': nonCsCorrecctAttentions,
 		'Distance': getCosineDistanceList(nonCsCorrect),
-		'NearestInCorpus': [', '.join(str(e) for e in kNearestCorpusDict[x]) for x in nonCsCorrect]
+		'NearestInCorpus': [', '.join(str(e) for e in kNearestCorpusDict[x]) for x in nonCsCorrect] if x in kNearestCorpusDict else ['']*len(nonCsCorrect)
 		}).to_csv('./output/NonCsCorrect.csv', index=False, header=True)
 print("#################################################################################")
 print("Accuracy", accuracy/iterations)
