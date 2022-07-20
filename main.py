@@ -1,8 +1,9 @@
 from library.BiLstm.BiLstmBinaryClassifier import BiLstmBinaryClassifier
 from library.BiLstm.Utils import *
 import pandas as pd
+from library.BiLstm.WikipediaDownload import getArticleList
 
-distance = getCosineDistance("map function")
+#distance = getCosineDistance("map function")
 
 csPhraseList = getDataListFromFile('./data/csTerms.csv')
 nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
@@ -13,11 +14,14 @@ nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 #csPhraseList = csPhraseList[:20]
 #nonCsPhraseList = nonCsPhraseList[:20]
 
+totalPhrases = csPhraseList + nonCsPhraseList
+wikiDownload = getArticleList(totalPhrases)
+
 X, y = getEmbeddingXY(csPhraseList, nonCsPhraseList)
 
-### X = csPhraseList, nonCsPhraseList
 kNearestCorpusDict = {}
-kNearestCorpusDict = getKNearestNeighboursFromCorpus(csPhraseList+nonCsPhraseList, X)
+## Comment this line if need to run faster
+kNearestCorpusDict = getKNearestNeighboursFromCorpus(totalPhrases, X)
 
 #################################################################################
 iterations = 1

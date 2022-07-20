@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>045bcbf5-3738-49de-b5e0-198dc84637c5</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>main.py</StartupFile>
+    <StartupFile>lsh.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -40,14 +40,24 @@
     <Compile Include="library\BiLstm\WriteLayerValCallback.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="library\BiLstm\WikipediaDownload.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="library\LSH\LSH.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="main.py" />
     <Compile Include="library\BiLstm\Attention.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="lsh.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="library\" />
     <Folder Include="library\BiLstm\" />
+    <Folder Include="library\LSH\" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="CondaEnv|CondaEnv|BiLstm" />

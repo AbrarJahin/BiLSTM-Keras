@@ -47,7 +47,7 @@ def getCosineDistanceList(embeddingList):
 	return [x for x in output]
 
 def getKNearestNeighboursFromCorpus(phraseList, embeddingList, k=10):
-	output = {}
+	output, orderedOutput = {}, []
 	for i, phrase in enumerate(phraseList):
 		print(i, '/', len(phraseList))
 		phraseEmbedding = bertEmbeddingModel.encode(phrase)
@@ -61,7 +61,19 @@ def getKNearestNeighboursFromCorpus(phraseList, embeddingList, k=10):
 		for _ in range(k):
 			popData = heapq.heappop(heap)
 			output[phrase].append(popData[1])
+			orderedOutput.append(popData[1])
 	return output
+
+def getKNearestNeighboursForString(phraseList, embeddingList, targetEmbedding, k=10):
+	orderedNeighbours, heap = [], []
+	for i, phraseEmbedding in enumerate(embeddingList):
+		similirityTensor = util.cos_sim(phraseEmbedding, targetEmbedding)
+		similirity = abs(similirityTensor.numpy()[0].tolist()[0])
+		heapq.heappush(heap, (-similirity, phraseList[i]))	#As max heap
+	for _ in range(min(k, len(heap))):
+		popData = heapq.heappop(heap)
+		orderedNeighbours.append(popData[1])
+	return orderedNeighbours
 
 def getDataListFromFile(fileAddress):
 	dataFrame = pd.read_csv(fileAddress, encoding= 'unicode_escape')
@@ -95,6 +107,16 @@ def getEmbedding(phrases):
 		return embeddings #[x.tolist() for x in embeddings]
 	else:
 		return getPhraseEmbedding(phrases)
+
+def getSentenceEmbedding(phrases):
+	if isinstance(phrases, list):
+		embeddingDict = {}
+		for phrase in tqdm(phrases):
+			embedding = bertEmbeddingModel.encode(phrase)
+			embeddingDict[phrase] = embedding
+		return embeddingDict
+	else:
+		return bertEmbeddingModel.encode(phrases)
 
 #Create embedding vectors from phrase
 def getEmbeddingXY(csPhraseList, nonCsPhraseList):
