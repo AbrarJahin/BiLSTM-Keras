@@ -1,6 +1,5 @@
-from keras.layers import Dense, Input, Dropout, LSTM, Activation
 from keras.layers import Bidirectional
-from keras.layers import Dense, Input, Dropout, LSTM, Activation
+from keras.layers import Dense, Input, Dropout, LSTM, Activation, Masking
 from library.BiLstm.Attention import Attention
 from keras.models import Model
 from keras.callbacks import EarlyStopping, ModelCheckpoint, Callback
@@ -122,13 +121,15 @@ class BiLstmBinaryClassifier:
             return 'Data Not Valid'
 
     def __createLstmModel(self, maxL, vectorLength):
-        netInput = Input(shape=(maxL, vectorLength))
-
-        lstmLayer = Bidirectional(LSTM(vectorLength, return_sequences=True))(netInput)  #256 = vectorLength
+        netInput0 = Input(shape=(maxL, vectorLength))
+        netInput = Masking(mask_value=0., input_shape=(maxL, vectorLength))(netInput0)
+        #model.add(Masking(mask_value=0., input_shape=(maxL, vectorLength)))
+        lstmLayer = Bidirectional(LSTM(vectorLength, return_sequences=True))(netInput)  #384 = vectorLength
         attentionLayerOut, attentionLayer = Attention()(lstmLayer)
         dense = Dense(1, activation="sigmoid")(attentionLayerOut)
-        biLstmModel = Model(inputs=netInput, outputs=dense)
-        attentionLayerModel = Model(inputs=netInput, outputs=attentionLayer)
+        #Graph disconnected: cannot obtain value for tensor KerasTensor(type_spec=TensorSpec(shape=(None, 5, 384), dtype=tf.float32, name='input_1'), name='input_1', description="created by layer 'input_1'") at layer "masking_3". The following previous layers were accessed without issue: []
+        biLstmModel = Model(inputs=netInput0, outputs=dense)
+        attentionLayerModel = Model(inputs=netInput0, outputs=attentionLayer)
         return biLstmModel, attentionLayerModel
 
     def getConfusionMatrix(self):
