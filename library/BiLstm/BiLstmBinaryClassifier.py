@@ -120,16 +120,16 @@ class BiLstmBinaryClassifier:
             print(ex)
             return 'Data Not Valid'
 
-    def __createLstmModel(self, maxL, vectorLength):
-        netInput0 = Input(shape=(maxL, vectorLength))
-        netInput = Masking(mask_value=0., input_shape=(maxL, vectorLength))(netInput0)
+    def __createLstmModel(self, maxL, vectorLength):    #vectorLength = no of LSTM cells
+        input = Input(shape=(maxL, vectorLength))
+        netInput = Masking(mask_value=0., input_shape=(maxL, vectorLength))(input)
         #model.add(Masking(mask_value=0., input_shape=(maxL, vectorLength)))
-        lstmLayer = Bidirectional(LSTM(vectorLength, return_sequences=True))(netInput)  #384 = vectorLength
-        attentionLayerOut, attentionLayer = Attention()(lstmLayer)
-        dense = Dense(1, activation="sigmoid")(attentionLayerOut)
+        biLstmLayer = Bidirectional(LSTM(vectorLength, return_sequences=True))(netInput)  #384 = vectorLength
+        attentionLayerOut, attentionLayer = Attention()(biLstmLayer)
+        output = Dense(1, activation="relu")(attentionLayerOut)
         #Graph disconnected: cannot obtain value for tensor KerasTensor(type_spec=TensorSpec(shape=(None, 5, 384), dtype=tf.float32, name='input_1'), name='input_1', description="created by layer 'input_1'") at layer "masking_3". The following previous layers were accessed without issue: []
-        biLstmModel = Model(inputs=netInput0, outputs=dense)
-        attentionLayerModel = Model(inputs=netInput0, outputs=attentionLayer)
+        biLstmModel = Model(inputs=input, outputs=output)
+        attentionLayerModel = Model(inputs=input, outputs=attentionLayer)
         return biLstmModel, attentionLayerModel
 
     def getConfusionMatrix(self):

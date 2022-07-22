@@ -81,7 +81,8 @@ def getDataListFromFile(fileAddress):
 
 def getPaddedWordsFromPhrase(phrase, maxSequenceLength = MAX_DEFAULT_SEQUENCE_LENGTH):
 	words = phrase.split(" ")
-	return words[:maxSequenceLength] + [""] * max(maxSequenceLength-len(words), 0)
+	return [""] * max(maxSequenceLength-len(words), 0) + words[:maxSequenceLength]	#Pre Padding
+	#return words[:maxSequenceLength] + [""] * max(maxSequenceLength-len(words), 0)	#Post Padding
 	#return words[:maxSequenceLength]
 
 def getPhraseEmbedding(phrase):
