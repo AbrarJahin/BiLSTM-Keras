@@ -22,7 +22,7 @@ class Attention:
         # Then, Permute will swap it to (?,52,512) where each row (?,k,120) is a copy of a_t[k]
         # Then, Multiply performs elementwise multiplication to apply the same a_t to each
         # dimension of the respective word vector
-        repeatVector = RepeatVector(repeatSize)(attentionOutput) #none, 512, 52
+        repeatVector = RepeatVector(repeatSize)(attentionOutput) #none, 768, None
         repeatVector = Permute([2,1])(repeatVector) #none, 52, 512
         output = Multiply()([input,repeatVector]) #none, 52, 512
         if combine:

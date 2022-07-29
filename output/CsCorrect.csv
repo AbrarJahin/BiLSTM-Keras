@@ -1,0 +1,3 @@
+IfCS,Phrase,Correct,Probablity,Attention,Distance
+1,concurrency control,,0.7046492099761963,"0.1627, 0.2051, 0.2107, 0.2107, 0.2107",0.8459779322147369
+1,constraint logic programming,,0.6025937795639038,"0.2145, 0.2208, 0.2202, 0.1722, 0.1722",0.7973045706748962

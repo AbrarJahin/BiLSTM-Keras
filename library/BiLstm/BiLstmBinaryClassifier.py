@@ -1,5 +1,5 @@
 from keras.layers import Bidirectional
-from keras.layers import Dense, Input, Dropout, LSTM, Activation, Masking
+from keras.layers import Dense, Input, Dropout, LSTM, Activation, Masking, Reshape
 from library.BiLstm.Attention import Attention
 from keras.models import Model
 from keras.callbacks import EarlyStopping, ModelCheckpoint, Callback
@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 from library.BiLstm.Preprocessing import convertToTensor, normalizePredList
+from keras import backend as K
 
 class BiLstmBinaryClassifier:
     def __init__(self, maxL, embeddingLength):
@@ -121,12 +122,17 @@ class BiLstmBinaryClassifier:
             return 'Data Not Valid'
 
     def __createLstmModel(self, maxL, vectorLength):    #vectorLength = no of LSTM cells
-        input = Input(shape=(maxL, vectorLength))
-        netInput = Masking(mask_value=0., input_shape=(maxL, vectorLength))(input)
+        BATCH_SIZE = 512
+        # https://stackoverflow.com/a/51024408/2193439
+        input = Input(shape=(None, vectorLength))
+        netInput = Masking(mask_value=0., input_shape=(None, vectorLength))(input)
         #model.add(Masking(mask_value=0., input_shape=(maxL, vectorLength)))
+        #vectorLength = None
         biLstmLayer = Bidirectional(LSTM(vectorLength, return_sequences=True))(netInput)  #384 = vectorLength
         attentionLayerOut, attentionLayer = Attention()(biLstmLayer)
         output = Dense(1, activation="relu")(attentionLayerOut)
+        #updatedShape = Reshape([5, 768])(attentionLayerOut)    #attentionLayerOut
+        #outputNp = output.numpy()
         #Graph disconnected: cannot obtain value for tensor KerasTensor(type_spec=TensorSpec(shape=(None, 5, 384), dtype=tf.float32, name='input_1'), name='input_1', description="created by layer 'input_1'") at layer "masking_3". The following previous layers were accessed without issue: []
         biLstmModel = Model(inputs=input, outputs=output)
         attentionLayerModel = Model(inputs=input, outputs=attentionLayer)

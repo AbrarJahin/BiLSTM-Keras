@@ -6,6 +6,7 @@ import time
 
 csPhraseList = getDataListFromFile('./data/csTerms.csv')
 nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
+nonCsPhraseList = [] #Because we are not interested in Non-CS Phrase
 
 data = list(set(csPhraseList + nonCsPhraseList))
 #random.shuffle(data)

@@ -8,8 +8,8 @@ from library.BiLstm.WikipediaDownload import getArticleList
 csPhraseList = getDataListFromFile('./data/csTerms.csv')
 nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 
-#csPhraseList = csPhraseList[:len(csPhraseList)//200]
-#nonCsPhraseList = nonCsPhraseList[:len(nonCsPhraseList)//200]
+csPhraseList = csPhraseList[:len(csPhraseList)//200]
+nonCsPhraseList = nonCsPhraseList[:len(nonCsPhraseList)//200]
 
 #csPhraseList = csPhraseList[:20]
 #nonCsPhraseList = nonCsPhraseList[:20]
