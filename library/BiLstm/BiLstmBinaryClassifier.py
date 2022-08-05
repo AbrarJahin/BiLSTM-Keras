@@ -13,7 +13,8 @@ from library.BiLstm.Preprocessing import convertToTensor, normalizePredList
 from keras import backend as K
 
 class BiLstmBinaryClassifier:
-    def __init__(self, maxL, embeddingLength):
+    def __init__(self, maxL, embeddingLength, isDynamicEmbeddingSize = False):
+        self._isDynamicEmbeddingSize = isDynamicEmbeddingSize
         self._maxLength = maxL
         self._embeddingLength = embeddingLength
         self.model, self.attentionLayerModel = self.__createLstmModel(maxL, embeddingLength)
@@ -124,8 +125,12 @@ class BiLstmBinaryClassifier:
     def __createLstmModel(self, maxL, vectorLength):    #vectorLength = no of LSTM cells
         BATCH_SIZE = 512
         # https://stackoverflow.com/a/51024408/2193439
-        input = Input(shape=(None, vectorLength))
-        netInput = Masking(mask_value=0., input_shape=(None, vectorLength))(input)
+        if self._isDynamicEmbeddingSize:
+            input = Input(shape=(None, vectorLength))
+            netInput = Masking(mask_value=0., input_shape=(None, vectorLength))(input)
+        else:
+            input = Input(shape=(maxL, vectorLength))
+            netInput = Masking(mask_value=0., input_shape=(maxL, vectorLength))(input)
         #model.add(Masking(mask_value=0., input_shape=(maxL, vectorLength)))
         #vectorLength = None
         biLstmLayer = Bidirectional(LSTM(vectorLength, return_sequences=True))(netInput)  #384 = vectorLength
