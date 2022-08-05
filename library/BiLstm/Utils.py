@@ -15,6 +15,8 @@ import pickle
 ############################################
 
 MAX_DEFAULT_SEQUENCE_LENGTH = 5
+IS_DYNAMIC_EMBEDDING_SIZE = False
+
 DEFAULT_BATCH_SIZE = 128
 DEFAULT_EMBEDDING_SIZE = 384
 
@@ -82,8 +84,9 @@ def getDataListFromFile(fileAddress):
 def getPaddedWordsFromPhrase(phrase, maxSequenceLength = MAX_DEFAULT_SEQUENCE_LENGTH):
 	words = phrase.split(" ")
 	#return [""] * max(maxSequenceLength-len(words), 0) + words[:maxSequenceLength]	#Pre Padding
-	return words[:maxSequenceLength] + [""] * max(maxSequenceLength-len(words), 0)	#Post Padding
+	#return words[:maxSequenceLength] + [""] * max(maxSequenceLength-len(words), 0)	#Post Padding
 	#return words[:maxSequenceLength]
+	return words[:maxSequenceLength] if IS_DYNAMIC_EMBEDDING_SIZE else words[:maxSequenceLength] + [""] * max(maxSequenceLength-len(words), 0)
 
 def getPhraseEmbedding(phrase):
 	embeddingLength = len(bertEmbeddingModel.encode([""])[0].tolist())
@@ -177,3 +180,7 @@ def getWronglyPredicted(phraseList, predList, toBePredicted = 1, embedding = Non
 			wronglyPredicted.append(phraseList[i])
 			if embedding: filteredEmbedding.append(embedding[i])
 	return wronglyPredicted, filteredEmbedding if embedding else wronglyPredicted
+
+def getCommonPhrases(phraseList1, phraseList2):
+	commonItems = set(phraseList1).intersection(set(phraseList2))
+	return sorted(list(commonItems))

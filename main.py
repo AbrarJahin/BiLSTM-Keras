@@ -14,6 +14,10 @@ nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 #csPhraseList = csPhraseList[:20]
 #nonCsPhraseList = nonCsPhraseList[:20]
 
+if len(getCommonPhrases(csPhraseList, nonCsPhraseList))!=0:
+	print("Error in Data, some data are common in both data set")
+	print(getCommonPhrases(csPhraseList, nonCsPhraseList))
+
 totalPhrases = csPhraseList + nonCsPhraseList
 
 X, y = getEmbeddingXY(csPhraseList, nonCsPhraseList)
@@ -24,7 +28,7 @@ X, y = getEmbeddingXY(csPhraseList, nonCsPhraseList)
 #kNearestCorpusDict = getKNearestNeighboursFromCorpus(totalPhrases, X)
 
 #################################################################################
-iterations = 3
+iterations = 2
 accuracy = 0
 for iteration in range(iterations):
 	EMBEDDING_SIZE, MAX_SEQUENCE_LENGTH = len(X[0][0]), 5
