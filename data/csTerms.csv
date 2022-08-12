@@ -1,5 +1,4 @@
 phrase
-
 3d computer graphics
 3d coordinate system
 3d core graphics system
@@ -7,20 +6,6 @@ phrase
 3d user interaction system
 3d user interaction systems
 3d user interaction techniques
-Bayesian information criterion
-DMA attack
-Factory method
-Geometric modeling
-Gradient boosting
-Infinite-dimensional optimization
-Log analysis
-Node Link
-Object Oriented Programming
-SchönhageStrassen algorithm
-Singleton pattern
-Software design pattern
-Symmetric-key algorithm
-User interface design
 abstract algebra
 abstract algorithms
 abstract data structures
@@ -33,7 +18,6 @@ abstract machines
 abstract state machine
 abstract state machines
 accelerated processing unit
-
 acoustic model
 activation function
 activation functions
@@ -43,7 +27,6 @@ adaptive equalizers
 adaptive filters
 adaptive huffman coding
 adaptive predictive coding
-
 address pool
 address space
 adjacency list
@@ -65,17 +48,13 @@ algorithmic design
 algorithmic information theory
 algorithmic mechanism design
 algorithmic paradigm
-
 ambient networks
-accelerated processing unit
-
 amdahl's law
 analog filters
 analog recording
 analog signal
 analog-to-digital converter
 analytic hierarchy process
-
 analytical hierarchy
 analytical hierarchy process
 anderberg algorithms
@@ -93,7 +72,6 @@ array list
 artificial bee colony algorithm
 artificial consciousness
 artificial intelligence
-
 artificial intelligent agents
 artificial neural network
 artificial neural networks
@@ -113,7 +91,6 @@ augmented reality
 authentication mechanism
 automata theory
 automata-based programming
-
 automatic memory management
 automatic programming
 automatic speech recognition
@@ -125,15 +102,11 @@ avl trees
 axiomatic set theory
 back end
 backfitting algorithm
-
 backpropagation based artificial neural networks
 backward euler method
 balanced binary search trees
 balanced tree
 balancing binary search tree
-
-
-
 baseline method
 basic function
 batch learning techniques
@@ -143,6 +116,7 @@ baumwelch algorithm
 bayes net
 bayes network
 bayesian information
+Bayesian information criterion
 bayesian kernel support vector machine
 bayesian network
 bayesian networks
@@ -156,7 +130,6 @@ bernstein polynomial
 bernstein polynomials
 beta encoder
 beta encoders
-
 bidirectional forwarding detection
 big data
 big data applications
@@ -179,15 +152,11 @@ binary trees
 binary vectors
 bio-inspired computing
 biodiversity informatics
-
-
 biologically inspired computing
 bit array
 bit bashing
-
 bit manipulation
 bit manipulations
-
 bit sequences
 bit slicing
 bit string
@@ -195,7 +164,6 @@ bit twiddling
 bitwise operation
 bitwise operations
 bivariate analysis
-
 block cipher
 block lanczos algorithm
 block range index
@@ -208,26 +176,21 @@ boolean logic
 boolean operators
 boosting methods
 boundary singularity
-
 bounds checking
 brute-force search
 bsp tree
 buffer overflows
 buffer overflowsruntime error detection tools
 business analysis
-
 business rule processing
 c4 model
 cache coherence
 caesar cipher
 caesar shift
 call stack
-
-
 case gradient descent
 categorical distribution
 categorical label
-
 category theory
 central processing unit
 certificate-based encryption
@@ -248,7 +211,6 @@ classic search algorithms
 classical backpropagation rule
 classical computer
 classical logic
-
 classification accuracy
 classification algorithms
 classification criteria
@@ -256,13 +218,11 @@ classification performance
 classification problem
 classification tasks
 classifier chain
-
 clipper processors
 clique trees
 clock cycle
 cluster analysis algorithms
 cluster centers
-
 clustering algorithms
 code development
 code libraries
@@ -284,7 +244,7 @@ combinational circuits
 combinatorial data analysis
 combinatorial explosion
 combinatorial game theory
-
+combinatorial optimization
 combinatorial optimization problems
 common language runtime
 communications network
@@ -304,7 +264,7 @@ complex event processing
 complex functions
 complex hermitian matrices
 complex vector spaces
-
+complexity bounds
 complexity theory
 composite data type
 composition filters
@@ -313,18 +273,15 @@ compound logic gates
 compressed data
 compressed data structure
 compressed sensing
-
 compressed version
 compression rate
 compression schemes
 computability logic
-
 computability theorists
 computability theory
 computable function
 computable functions
 computation time
-
 computational cognitive science
 computational complexity
 computational complexity theory
@@ -351,8 +308,6 @@ computational resource
 computational resources
 computational statistics
 computational system
-
-
 computationally intractable
 compute arithmetic operations
 computer algebra
@@ -371,7 +326,6 @@ computer language
 computer learning
 computer log management
 computer memory
-
 computer mouse
 computer network
 computer network architecture
@@ -398,7 +352,6 @@ conceptual design discipline
 concurrency control
 concurrent algorithm
 concurrent pattern calculus
-
 conditional dependence structure
 conditional expression
 conditional mutual information
@@ -411,23 +364,19 @@ conjunctive normal form
 connected wireless device
 connectionist networks
 conquer algorithm
-
 constraint logic programming
 constraint programming
 continuous function
 continuous unimodal function
 continuous-time Markov process
 continuous-time recurrent neural networks
-
 control theory
 conventional dynamic memory allocation libraries
 convergence analysis
-
 convolutional neural network
 convolutional neural networks
 copyright investigation
 core algorithms
-
 correction algorithms
 correlation matrix
 correlation network
@@ -438,7 +387,6 @@ creational pattern
 cross-correlation matrix
 cross-entropy method
 cross-site scripting
-
 cryptographic process
 cryptographic protocols
 cumulative reward
@@ -449,29 +397,24 @@ data analysis
 data base model
 data center
 data compression
-
 data elements
 data encryption standard
-
 data mining
 data model
 data modeling
 data objects
 data origin authentication
-
 data retrieval operations
 data set
 data sets
 data sparsity
 data storage
-
 data stream clustering
 data streaming algorithms
 data structure
 data structures
 data transfer
 data type
-
 data visualization
 data warehouse
 data-flow diagram
@@ -508,10 +451,8 @@ deep reinforcement learning
 degree matrix
 delay-tolerant networking
 delta encoding
-
 density function
 density matrix
-
 dependency network
 description logics
 descriptive statistics
@@ -532,8 +473,6 @@ differentiable neural computers
 differential calculus
 differential entropy
 differential equations
-
-
 digital circuits
 digital computer
 digital conversion
@@ -548,17 +487,12 @@ digital picture processing
 digital signal
 digital signal processing
 digital signatures
-
 digital transmission
-
-
 dimensional generalization
 dimensional optimization problem
-
 dimensional space
 dimensional theories
 dimensional vector space model
-
 directed acyclic graph
 directed edge
 directed graph
@@ -571,7 +505,6 @@ discrete time recurrent neural networks
 discriminant function analysis
 disk encryption software
 disk hardware encryption
-
 distance metric
 distance metric learning
 distributed algorithms
@@ -588,12 +521,9 @@ distributed object communication
 distributed search
 distribution-based clustering
 division algorithm
-
-
 dma attack
+DMA attack
 dma attacks
-
-
 double-ended priority queue
 doubly linked list
 dynamic array
@@ -603,14 +533,12 @@ dynamic models
 dynamic prefetched arrays
 dynamic table
 dynamical system
-
 dynamically allocated array
 eager learning
 ecb mode
 economic game theory
 edge contraction
 efficient algorithms
-
 eigenmode expansion
 eigenvalue algorithm
 electronic signature
@@ -618,7 +546,6 @@ electronic signatures
 embedded data
 embedded systems
 empirical eigenfunction
-
 empirical orthogonal functions
 empty set
 encrypted data
@@ -626,11 +553,9 @@ encryption algorithm
 encryption algorithms
 encryption keys
 enhanced double hashing
-
 entanglement measurement
 entropy calculations
 entropy method
-
 erp software
 error detection
 error message
@@ -639,26 +564,21 @@ euclidean cubes
 euclidean distance
 euclidean division
 euclidean space
-
 evaluation functions
 evaluation method
-
 evolution strategies
 evolutionary algorithms
 evolutionary computation
 evolutionary programming
-
 exception handling
 exhaustive search
 explanatory variables
 explicit regression gradient boosting algorithms
 exponential convergence
-
 extended binary trees
-
 extensible text framework
 external node
-
+Factory method
 factory method
 factory method pattern
 fast fourier transform
@@ -682,16 +602,13 @@ first order logic
 first-order reduction
 fitts's law
 flexible cluster extraction
-
 floppy disk
-
 flow diagram
 flowers method
 flux architecture
 fold functions
 formal knowledge representation languages
 formal language theory
-
 forward algorithm
 fp discovery
 fp mining
@@ -699,7 +616,6 @@ frequent pattern discovery
 fully connected layers
 fully recurrent neural networks
 function abstraction
-
 function interaction
 function join
 functional analysis
@@ -710,7 +626,6 @@ functional presence engine
 functional presence engines
 functional programming
 functional quantum programming languages
-
 fuzzy class
 fuzzy classification
 fuzzy classification predicate
@@ -724,9 +639,7 @@ fuzzy propositional function
 fuzzy set
 fuzzy sets
 fuzzy systems
-
 gaming systems
-
 gap analysis naturally flows
 garbage collection
 gated recurrent units
@@ -751,18 +664,19 @@ generic programming
 genetic algorithms
 genetic representation
 genetic representations
+Geometric modeling
 geometrical model
 gesture recognition
 gibbs sampling
 global memory
 global minimum
-
 global solutions
 global view
 golay code
 gompertz curve
 google code
 gradient boosted trees
+Gradient boosting
 gradient boosting
 gradient boosting algorithms
 gradient descent
@@ -801,16 +715,12 @@ hashing problem
 hebbian learning
 helmholtz machine
 helmholtz machines
-
 heterogeneous networks
 heuristic method
 hidden layer
 hidden layers
 hidden markov model
 hidden markov models
-
-
-
 higher-order logics
 highly correlated
 hilbert space
@@ -819,7 +729,6 @@ hinge loss
 homotopy invariant
 hopfield learning rule
 huffman coding
-
 human-centered computing
 humancomputer interaction
 humancomputer interfaces
@@ -832,7 +741,6 @@ image file formats
 image processing
 image recognition
 image search tool
-
 immersive virtual environment
 immutable object
 immutable objects
@@ -846,6 +754,7 @@ independent variable
 inductive inference
 industrial design
 industrial protocol
+Infinite-dimensional optimization
 informatics techniques
 information architecture
 information dimension
@@ -869,11 +778,9 @@ input sentence
 input sequences
 input signal
 insertion sort
-
-
+instance-based learning
 integer factorization algorithms
 integrated computational materials engineering
-
 intelligent agent
 intelligent agent paradigm
 intelligent agents
@@ -887,9 +794,7 @@ internet routing registry
 internet service providers
 interpolative decomposition
 intrusion detection
-
 inverse matrix
-
 ip address
 ip address pool
 ip routing
@@ -898,8 +803,6 @@ ipv6 address pool
 iterative algorithms
 iterative method
 iterative refinement
-
-
 jacobi iteration method
 jacobi method
 javascript computer programming
@@ -919,7 +822,6 @@ kernel density estimation
 kernel function
 kernel machines
 kernelized learning algorithms
-
 knapsack problem
 knowledge base
 knowledge discovery
@@ -939,42 +841,34 @@ layered network architecture
 lazy evaluation
 lazy inheritance
 lazy learning
-
 leaf node
 leaf nodes
 learnable function class
 learning algorithm
 learning automaton
 learning method
-
 learning theory
 learning vector quantization
-
 least square estimators
 least-squares support-vector machine
 left stochastic matrix
-
 lexicographic code
 lightweight software
 linear algebra
 linear approach
 linear bayesian svm
-
 linear combination
 linear combinations
 linear dependency
-
 linear discriminant analysis
 linear discriminant function
 linear equality
 linear equations
-
 linear function
 linear inequality constraints
 linear objective function
 linear probing
 linear programming
-
 linear quadratic gaussian control
 linear regression
 linear regression models
@@ -990,6 +884,7 @@ local minima
 local minimum
 local regression
 log analysis
+Log analysis
 logarithm function
 logic gate
 logic optimization
@@ -1000,8 +895,6 @@ logic programming languages
 logical calculi
 logical data model
 logical expressions
-
-
 logical unit
 logical variables
 logistic function
@@ -1051,23 +944,16 @@ mathematical analysis
 mathematical constructors
 mathematical duality
 mathematical formula
-
 mathematical function
 mathematical logic
 mathematical model
-
 mathematical study
 matlab code
-
 matrix algorithms
-
 matrix decomposition
 matrix decompositions
-
 matrix multiplication
 matrix operations
-
-
 matroid problems
 max-flow min-cut theorem
 maximal subtree isomorphism
@@ -1081,7 +967,6 @@ medical imaging
 meldable heap
 meldable heap implementation
 membership function
-
 memory allocation
 memory debugger
 memory debuggers
@@ -1095,30 +980,21 @@ memory sharing
 memory space
 message authentication codes
 meta learning
-
 method call
-
-
 microsoft sql server
 microsoft windows application programming interface
-
 min-conflicts algorithm
 minimum degree algorithm
 minimum degree algorithms
 minimum k-cut
 minimum message length
-
-
 mnist database
 mobile ad hoc networks
 mobile computing devices
 mobile software agent
 modal interpretations
-
 model predictive control
-
 modeling software
-
 modern decision theory
 modern deep learning models
 modulo scheduling
@@ -1151,13 +1027,10 @@ natural computation
 natural language
 natural language processing
 natural language text
-
 nearest neighbor algorithm
 nearest neighbor problem
-
 negative transfer learning
 neighbouring vertices
-
 nested loop
 network architecture
 network browsing
@@ -1169,7 +1042,6 @@ network processors
 network protocol
 network scheduler
 neural abstraction pyramid
-
 neural network
 neural network toolbox
 neural networks
@@ -1178,8 +1050,8 @@ neural synapse
 neural turing machines
 neurocomputational speech processing
 neuron clusters
-
 nm matrix
+Node Link
 noise ratio
 non-negative matrix factorization
 nonlinear global analysis
@@ -1207,20 +1079,18 @@ numerical optimization
 numpy bindings
 object code
 object code optimizer
+Object Oriented Programming
 object oriented programming
 object recognition  technical report icg
 object recognition technology
 object-oriented design
 objective function
-
-
 ocaml languages
 octave scripting language
 offline algorithms
 ogee curve
 online algorithm
 online algorithms
-
 online machine learning
 operating system
 operating systems
@@ -1243,18 +1113,13 @@ order logics
 ordered sets
 ordered tree
 organizational network
-
-
-
 original data
 orthogonal decomposition
 orthogonal decomposition methods
 osi model
 outer node
-
 output label
 output layer
-
 parallel algorithm
 parallel computing
 parallel graph algorithms
@@ -1264,10 +1129,7 @@ parallel tree contraction
 parent class
 parity function
 parsimonious reductions
-
-
 pattern calculus
-
 pattern matching
 pattern recognition
 pattern recognition task
@@ -1282,15 +1144,12 @@ physical neural networks
 physical qualities
 pigeonhole sort
 pigeonhole sorting
-
 plane sweep
 plane sweep algorithm
 plane tree
-
 point distribution model
 polygonal approximations
 polygraphic substitution
-
 polymorphic association
 polymorphic recursion
 polynomial decomposition
@@ -1310,7 +1169,6 @@ prediction model
 predictive analytics
 predictive model
 primitive data types
-
 primitive recursive function
 primitive recursive functions
 principal component analysis
@@ -1324,23 +1182,16 @@ probabilistic graphical model
 probabilistic methods
 probabilistic model
 probabilistic models
-
 probabilistic relational model
 probabilistic relationships
-
 probabilistic tests
 probabilistic turing machine
 probabilistic turing machines
-
 probability distribution
 probability distributions
-
 probability theory
 problem space
 process optimization software
-
-
-
 processing power
 processing unit
 processor time
@@ -1358,10 +1209,7 @@ programming languages
 programming paradigm
 progressive networks
 pronunciation model
-
-
 propositional logic
-
 prototype-based supervised classification algorithm
 proxy object
 proxy pattern
@@ -1373,7 +1221,6 @@ python package
 quadratic function
 quadratic probing
 quality metrics
-
 quantum computation language
 quantum computer
 quantum computing
@@ -1400,8 +1247,6 @@ random decision forests
 random forest
 random forests
 random indexing
-
-
 random permutation model
 random projection
 random subset
@@ -1435,10 +1280,7 @@ recursive algorithm
 recursive algorithms
 recursive parametrically polymorphic function
 recursive relation
-
-
 red hat virtualization
-
 reduction systems
 register allocation
 regression analysis
@@ -1455,10 +1297,8 @@ relational database domain
 relational database models
 relational database theory
 relational databases
-
 relational model
 relational semantics
-
 representation learning
 residual bit error rate
 resizable array
@@ -1472,16 +1312,11 @@ ridge regression
 ridge regression estimator
 ridge regressions
 right stochastic matrix
-
 robbinsmonro optimization algorithm
-
 root node
 rooted tree
-
 router networks
-
 row vectors
-
 run time
 runtime efficiency
 runtime environment
@@ -1493,8 +1328,8 @@ scalar processor
 scalar processors
 scalar response
 schematic diagram
-
 schwartzian transform
+SchÃÂÃÂÃÂÃÂ¶nhageÃÂÃÂÃÂÃÂStrassen algorithm
 scientific computing
 scientific language
 scientific method
@@ -1550,13 +1385,12 @@ simulated neurons
 single core cpu
 single core processors
 single nearest neighbor
+Singleton pattern
 singleton pattern
 site tracing
 situ matrix transposition
-
 skew heap
 skew heaps
-
 smoothness assumption
 soft computing
 soft decision viterbi decoders
@@ -1565,12 +1399,10 @@ software architect
 software architects
 software construction
 software design
-
+Software design pattern
 software development
 software engineer
 software engineering
-
-
 software engineers
 software frameworks
 software implementations
@@ -1586,7 +1418,6 @@ software system
 software systems
 software verification method
 software vulnerabilities
-
 sort keys
 sorted binary tree
 sorting algorithm
@@ -1633,7 +1464,6 @@ state machine
 state machine operating
 state machines
 state space
-
 static arrays
 static compilation
 static hashing
@@ -1713,6 +1543,7 @@ sweep surface
 symbolic artificial intelligence
 symbolic computation
 symbolic-numeric computation
+Symmetric-key algorithm
 synchronous optical networking
 syntactic transformations
 synthetic consciousness
@@ -1725,11 +1556,7 @@ systems engineering
 systems theory
 table structure
 taxonomic databases
-
 technology database
-
-
-
 telecommunications network
 template method pattern
 temporal coding
@@ -1740,7 +1567,6 @@ temporal patterning
 temporal sequence
 tensor product
 term complex data type
-
 terminal node
 terrestrial networks
 test bits
@@ -1749,19 +1575,12 @@ text mining
 text processing
 text retrieval
 textual data
-
-
 theoretical computer science
 thomas algorithm
 thus trees
-
-
-
 time complexity
 time delay neural network
 time delays
-
-
 timespace tradeoffs
 tolerant networking algorithms
 toomcook multiplication
@@ -1771,11 +1590,9 @@ traditional artificial intelligence
 traditional computer networking
 traditional convolutional layers
 training data
-
 training set
 training time
 transductive learning
-
 transfer entropy
 transfer learning
 transformation algorithm
@@ -1814,13 +1631,13 @@ untyped tree structure
 uri normalization
 user experience design
 user interface
+User interface design
 user interface design
 user interface software
 user interface structure
 user interfaces
 user queries
 user virtualization
-
 ux design
 vague set
 value distribution
@@ -1832,12 +1649,10 @@ vector optimization
 vector quantization
 vector space
 vector spaces
-
 vigenre cipher
 virtual address space
 virtual intelligence
 virtual machine
-
 virtual memory address space
 virtual memory addresses
 virtual reality
@@ -1863,6 +1678,5 @@ wigner function
 wireless routing protocol
 world wide web
 xml data
-
 zero fields
 zip files

@@ -29,4 +29,4 @@ for i, d in enumerate(data):
 pd.DataFrame({
 	'Phrase': data,
 	'Neighbours': nearestNeighbor
-	}).to_csv('./output/neighbours.csv', index=False, header=True)
+	}).to_csv('./output/CS_neighbours.csv', index=False, header=True)
