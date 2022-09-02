@@ -8,7 +8,7 @@ csPhraseList = getDataListFromFile('./data/csTerms.csv')
 nonCsPhraseList = getDataListFromFile('./data/nonCsTerms.csv')
 nonCsPhraseList = [] #Because we are not interested in Non-CS Phrase
 
-data = list(set(csPhraseList + nonCsPhraseList))
+data = list(set(csPhraseList + nonCsPhraseList + ['lstm']))
 #random.shuffle(data)
 data.sort(key=lambda x : x.lower())
 embeddingDict = getSentenceEmbedding(data)
