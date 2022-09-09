@@ -40,7 +40,7 @@ for iteration in range(iterations):
 	accuracy += lstmModel.test(testDataPair)
 	if iteration==iterations-1:		#Last Iteration
 		predValues = lstmModel.predict(testDataPair[0])
-		#lstmModel.drawTrainTestAccuracyCurve()
+		lstmModel.drawTrainTestAccuracyCurve()
 		#print("Embedding Size = ",str(EMBEDDING_SIZE))
 		lstmModel.getConfusionMatrix()
 
